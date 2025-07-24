@@ -2,7 +2,8 @@ import streamlit as st
 import pandas as pd
 import re
 
-st.title("Epicc-builder:\ create your sample file and config files for the epigenetic button")
+st.title("Epicc-builder:\
+create your sample file and config files for the epigenetic button")
 
 st.header("Sample file")
 df = pd.DataFrame(

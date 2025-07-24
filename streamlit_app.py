@@ -51,8 +51,6 @@ def validations_columns(data_type):
         return re.compile(r"^(IP|IPb|Input)$")
     elif data_type.startswith("ChIP_"):
         return re.compile(r"^(?!.*\s)(?!.*__)(?!.*').*$")
-    else:
-        return None
 
 def validate_sample_type(row):
     pattern = validations_columns(row.data_type)
@@ -66,9 +64,11 @@ st.header("Config file")
 
 st.header("Click the button to generate your files!")
 
-if st.button("EPIGENETIC", type="primary", key="epibtn"):
+if st.button("EPIGENETIC", type="primary", icon=":material/button:"):
     for _, row in df.iterrows():
         if not validate_sample_type(row):
             raiseValue(f'sample_type in row.index does not match the data type') 
         if not validate_SRA(row):
             raiseValue('fastq_path should be set to "SRA" to dowload deposited SRR run')
+
+    print("Samplefile is correct!") 

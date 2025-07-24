@@ -97,7 +97,7 @@ st.header("Config file")
 
 st.header("Click the button to generate your files!")
 
-if st.button("EPIGENETIC", type="primary", icon="🔘"):
+if st.button("EPIGENETIC 🔘", type="primary"):
     err=0
     dup = edited[edited.duplicated(subset=["data_type","line","tissue","sample_type","replicate","reference_genome"], keep=False)]
     if not dup.empty:

@@ -113,7 +113,8 @@ def check_table(tab):
 ##
 st.header("Config file", divider="red")
 url2 = "https://raw.githubusercontent.com/joncahn/epigeneticbutton/refs/heads/main/config/config.yaml"
-config = yaml.safe_load(url2)
+with open(url2, "r"):
+        config = yaml.safe_load(url2)
 
 st.subheader("Required parameters")
 repo_folder = st.text_input("full path to folder:", value="/path/to/epigeneticbutton/repo")

@@ -135,9 +135,8 @@ if species not in ["thaliana","mays"]:
         go_database = st.text_input("GO database", value="org.Athaliana.eg.db", help="pattern should be org.<firstlettergenus><species>.eg.db")
 
 st.subheader("Output options")
-full_analysis = st.toggle("Complete analysis", value=True)
 QC_option = st.selectbox("Choose fastQC options", ["none", "all"])
-chip_mapping_option = st.selectbox("Choose ChIP mapping options", ["default", "repeat", "all", "repeatall"])
+full_analysis = st.toggle("Complete analysis", value=True)
 if full_analysis:
         st.write("Complete analysis activated! Smash that button! 💪")
 else:
@@ -165,6 +164,7 @@ with st.expander("⚙️ Advanced Options", expanded=False):
         with st.expander("ChIP-seq samples", expanded=False):
                 trimming_quality = st.text_input("parameters for trimming", key="chip_trimming", value="-q 10 -m 20")
                 adapter1 = st.text_input("adapter sequence", key="chip_adapter", value="AGATCGGAAGAGCACACGTCTGAAC")
+                chip_mapping_option = st.selectbox("Choose ChIP mapping options", ["default", "repeat", "all", "repeatall"])
                 bs = st.number_input("binsize for bigwigs", min_value=1, max_value=int(1e6), value=1)
                 params_bw = st.text_input("parameters for generating bigwigs", value="--scaleFactorsMethod 'None' --normalizeUsing CPM --extendReads 300")
                 params_macs2 = st.text_input("parameters for peak calling with macs2", value = "--keep-dup 'all' --nomodel")

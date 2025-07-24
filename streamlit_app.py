@@ -59,7 +59,6 @@ def validate_sample_type(row):
 def validate_SRA(row):
     id = str(row.seq_id)
     path = str(row.fastq_path)
-    st.write(f"validating SRA: seq_id = {id}; path = {path}")
     if id.startswith("SRR"):
         return path == "SRA"
     if path == "SRA":
@@ -69,11 +68,36 @@ def validate_SRA(row):
 def name(row):
     return f"{row.data_type}_{row.line}_{row.tissue}_{row.sample_type}"
 
+def assign_chip_input(row):
+    dtype = row.data_type
+    stype = row.sample_type
+    if (dtype.startswith("TF") or dtype.startswith("ChIP")): 
+        if stype != "Input":
+            match = edited[
+                (edited["data_type"]==row.data_type) &
+                (edited["line"]==row.line) &
+                (edited["tissue"]==row.tissue) &
+                (edited["sample_type"]=="Input") &
+                (edited["ref_genome"]==row.ref_genome)]
+            if match.empty:
+                return "Input"
+
+        if stype == "Input":
+            match = edited[
+                (edited["data_type"]==row.data_type) &
+                (edited["line"]==row.line) &
+                (edited["tissue"]==row.tissue) &
+                (edited["sample_type"] != "Input") &
+                (edited["ref_genome"]==row.ref_genome)]
+            if match.empty:
+                return "Sample"          
+    return True
+    
 st.header("Config file")
 
 st.header("Click the button to generate your files!")
 
-if st.button("EPIGENETIC 🔘", type="primary"):
+if st.button("EPIGENETIC", type="primary", icon="🔘"):
     err=0
     for i, (_,row) in enumerate(edited.iterrows(), start=1):
         if not validate_sample_type(row):
@@ -82,6 +106,12 @@ if st.button("EPIGENETIC 🔘", type="primary"):
         if not validate_SRA(row):
             st.error(f'❌ Row #{i} {name(row)}: fastq_path should be set to "SRA" to dowload deposited SRR run or to local directory otherwise')
             err=1
-        i+=1
+        if assign_chip_input(row) == "Input":
+            st.error(f'❌ Row #{i} {name(row)}: missing a corresponding Input sample')
+            err=1
+        elif assign_chip_input(row) == "Sample":
+            st.error(f'❌ Row #{i} {name(row)}: no sample depends on this Input')
+            err=1
+
     if err == 0:
         st.success("✅ Samplefile is correct!")

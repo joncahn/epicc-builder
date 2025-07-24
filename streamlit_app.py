@@ -145,8 +145,8 @@ chip_mapping_option = st.selectbox("Choose ChIP mapping options", ["default", "r
 
 with st.expander("⚙️ Advanced Options", expanded=False):
         with st.expander("ChIP-seq samples", expanded=False):
-                trimming_quality = st.text_input("parameters for trimming", value="-q 10 -m 20")
-                adapter1 = st.text_input("adapter sequence", value="AGATCGGAAGAGCACACGTCTGAAC")
+                trimming_quality = st.text_input("parameters for trimming", key="chip_trimming", value="-q 10 -m 20")
+                adapter1 = st.text_input("adapter sequence", key="chip_adapter", value="AGATCGGAAGAGCACACGTCTGAAC")
                 bs = st.number_input("binsize for bigwigs", min_value=1, max_value=int(1e6), value=1)
                 params_bw = st.text_input("parameters for generating bigwigs", value="--scaleFactorsMethod 'None' --normalizeUsing CPM --extendReads 300")
                 params_macs2 = st.text_input("parameters for peak calling with macs2", value = "--keep-dup 'all' --nomodel")
@@ -165,14 +165,20 @@ with st.expander("⚙️ Advanced Options", expanded=False):
                                 st.error("Pattern is empty")
                 config["chip_callpeaks"]["peaktype"] = peaktype
         with st.expander("RNAseq samples", expanded=False):
+                trimming_quality = st.text_input("parameters for trimming", key="rna_trimming", value="-q 10 -m 20")
+                adapter1 = st.text_input("adapter sequence", key="rna_adapter1", value="AGATCGGAAGAGCACACGTCTGAAC")
                 strandedness = st.selectbox("RNA strandedness", ["reverse", "forward"], help="Default for RNA-seq libraries is reverse. Change if the library prep kit use different chemistry.")
                 multimap = st.selectbox("Mapped reads used for bigwigs", ["multiple","unique"], help="Choose whether unique or multimapped reads to be used for bigwig files") 
         
         with st.expander("mC samples", expanded=False):
+                trimming_quality = st.text_input("parameters for trimming", key="mC_trimming", value="-q 10 -m 20")
+                adapter1 = st.text_input("adapter sequence", key="mC_adapter1", value="AGATCGGAAGAGCACACGTCTGAAC")
                 mC_method = st.selectbox("mC library prep method", ["default","WGBS", "Pico", "EMseq"], help="Library preparation method for mC samples. Default is whole-genome bisulphite sequencing.")
-                map_pe = st.number_input("Max inserts", min_value=100, max_value=int(50000), value=1000, help="Value used for --maxins parameter of bismark to limit the maximum distance between reads R1 and R2 in PE data.")
+                map_pe = st.number_input("Max insert length", min_value=100, max_value=int(50000), value=1000, help="Value used for --maxins parameter of bismark to limit the maximum distance between reads R1 and R2 in PE data.")
         
         with st.expander("sRNA samples", expanded=False):
+                trimming_quality = st.text_input("parameters for trimming", key="srna_trimming", value="-q 10 -m 15")
+                adapter1 = st.text_input("adapter sequence", key="srna_adapter1", value="TGGAATTCTCGGGTGCCAAGG")
                 structural_rna_depletion = st.toggle("Depletion of structural RNAs", value=False, help="Option to filter structural RNA (rRNAs, tRNAs, snoRNAs) before mapping. Recommended step when studying microRNAs and small interfering RNAs.")
                 if structural_rna_depletion:
                         st.write("Depletion of structural RNA will be performed!")
@@ -180,7 +186,7 @@ with st.expander("⚙️ Advanced Options", expanded=False):
                 else:
                         st.write("Complete analysis deactivated. Only mapping will be performed.")
                 srna_mapping_params = st.text_input("Mapping parameters for sRNA  with ShortStack", value="--mmap u --dicermin 21 --dicermax 24 --dn_mirna --no_bigwigs", help="consider replacing --dn_mirna with --known_miRNAs KNOWN_MIRNAS.fa (but requires fetching miRNAs sequences, from miRBase for example)")
-                srna_min_size, srna_max_size = st.slider("Range of small RNA sizes to keep and create individual bigwig files", min_value=20, max_value=100, value=(21,24))
+                srna_min_size, srna_max_size = st.slider("Range of small RNA sizes to keep and create individual bigwig files", min_value=15, max_value=100, value=(21,24))
                 srna_heatmap_size = []
                 st.write("Select the sizes to use for plotting in heatmaps and profiles:")
                 for i in range(srna_min_size, srna_max_size + 1):

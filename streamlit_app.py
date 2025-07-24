@@ -78,7 +78,7 @@ def assign_chip_input(row):
                 (edited["line"]==row.line) &
                 (edited["tissue"]==row.tissue) &
                 (edited["sample_type"]=="Input") &
-                (edited["ref_genome"]==row.reference_genome)]
+                (edited["reference_genome"]==row.reference_genome)]
             if match.empty:
                 return "Input"
 
@@ -88,7 +88,7 @@ def assign_chip_input(row):
                 (edited["line"]==row.line) &
                 (edited["tissue"]==row.tissue) &
                 (edited["sample_type"] != "Input") &
-                (edited["ref_genome"]==row.reference_genome)]
+                (edited["reference_genome"]==row.reference_genome)]
             if match.empty:
                 return "Sample"          
     return True

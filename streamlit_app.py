@@ -172,7 +172,7 @@ with st.expander("⚙️ Advanced Options", expanded=False):
                 mC_method = st.selectbox("mC library prep method", ["default","WGBS", "Pico", "EMseq"], help="Library preparation method for mC samples. Default is whole-genome bisulphite sequencing.")
                 map_pe = st.number_input("Max inserts", min_value=100, max_value=int(50000), value=1000, help="Value used for --maxins parameter of bismark to limit the maximum distance between reads R1 and R2 in PE data.")
         
-        with st.expander("mC samples", expanded=False):
+        with st.expander("sRNA samples", expanded=False):
                 structural_rna_depletion = st.toggle("Depletion of structural RNAs", value=False, help="Option to filter structural RNA (rRNAs, tRNAs, snoRNAs) before mapping. Recommended step when studying microRNAs and small interfering RNAs.")
                 if structural_rna_depletion:
                         st.write("Depletion of structural RNA will be performed!")

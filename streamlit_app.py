@@ -1,5 +1,5 @@
 import streamlit as st
-import panda as pd
+import pandas as pd
 
 df = pd.DataFrame(
     [
@@ -24,3 +24,4 @@ df = pd.DataFrame(
 )
 
 st.table(df)
+

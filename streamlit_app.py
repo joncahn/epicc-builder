@@ -110,7 +110,7 @@ st.header("Click the button to check your files!", divider="red")
 
 left, middle, right = st.columns(3)
 with middle:
-    epibtn = st.download_button("EPIGENETIC 🔘", edited, type="primary")
+    epibtn = st.button("EPIGENETIC 🔘", type="primary")
     
 if epibtn: 
     check_table(edited)

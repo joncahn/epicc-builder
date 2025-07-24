@@ -27,7 +27,7 @@ df = pd.DataFrame(
         ]
 )
     
-st.data_editor(df, hide_index=True, num_rows="dynamic", column_config={
+edited = st.data_editor(df, hide_index=True, num_rows="dynamic", column_config={
         "data_type": st.column_config.TextColumn(help="Type of data [RNAseq | ChIP_* | TF_* | mC | sRNA]", required=True, validate=r"^(RNAseq|ChIP.*|TF_.*|mC|sRNA)$"),
         "line": st.column_config.TextColumn(help="Can be any information you want to annotate and label samples", required=True, validate=r"^(?!.*\s)(?!.* )(?!.*__)(?!.*').*$"),
         "tissue": st.column_config.TextColumn(help="Can be any information you want to annotate and label samples", required=True, validate=r"^(?!.*\s)(?!.* )(?!.*__)(?!.*').*$"),
@@ -75,7 +75,7 @@ st.header("Click the button to generate your files!")
 
 if st.button("EPIGENETIC 🔘", type="primary"):
     err=0
-    for i, (_,row) in enumerate(df.iterrows(), start=1):
+    for i, (_,row) in enumerate(edited.iterrows(), start=1):
         if not validate_sample_type(row):
             st.error(f'❌ Row #{i} {name(row)}: sample_type in does not match the data type')
             err=1

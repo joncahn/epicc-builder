@@ -28,15 +28,15 @@ df = pd.DataFrame(
 )
     
 st.data_editor(df, hide_index=True, num_rows="dynamic", column_config={
-        "data_type": st.column_config.TextColumn(help="Type of data [RNAseq | ChIP_* | TF_* | mC | sRNA]", required=True, default="RNAseq", validate=r"^(RNAseq|ChIP_.*|TF_.*|mC|sRNA)$"),
-        "line": st.column_config.TextColumn(help="Can be any information you want to annotate and label samples", required=True, default="WT", validate=r"^(?!.*\s)(?!.*__)(?!.*').*$"),
-        "tissue": st.column_config.TextColumn(help="Can be any information you want to annotate and label samples", required=True, default="RNAseq", validate=r"^(?!.*\s)(?!.*__)(?!.*').*$"),
+        "data_type": st.column_config.TextColumn(help="Type of data [RNAseq | ChIP_* | TF_* | mC | sRNA]", required=True, validate=r"^(RNAseq|ChIP_.*|TF_.*|mC|sRNA)$"),
+        "line": st.column_config.TextColumn(help="Can be any information you want to annotate and label samples", required=True, validate=r"^(?!.*\s)(?!.*__)(?!.*').*$"),
+        "tissue": st.column_config.TextColumn(help="Can be any information you want to annotate and label samples", required=True, validate=r"^(?!.*\s)(?!.*__)(?!.*').*$"),
         "sample_type": st.column_config.TextColumn(help="Details on the type of sample: for RNAseq, mC and sRNA use RNAseq, mC and sRNA, respectively. For TF ChIP, use IP (for narrow binding TF), IPb for broad binding, Input for the control. For histone ChIP-seq, use the name of the mark or Input", 
-                                                   required=True, default="Input", validate=r"^(?!.*\s)(?!.*__)(?!.*').*$"),
-        "replicate": st.column_config.TextColumn(help="Name of replicate (e.g. 1, A, Rep1)", required=True, default="Rep1", validate=r"^(?!.*\s)(?!.*__)(?!.*').*$"),
+                                                   required=True, validate=r"^(?!.*\s)(?!.*__)(?!.*').*$"),
+        "replicate": st.column_config.TextColumn(help="Name of replicate (e.g. 1, A, Rep1)", required=True, validate=r"^(?!.*\s)(?!.*__)(?!.*').*$"),
         "seq_id": st.column_config.TextColumn(help="SRR number, or unique identifier in the name of raw fastq files located at the fastq_path location", required=True, validate=r"^(?!.*\s)(?!.*__)(?!.*').*$"),
-        "fastq_path": st.column_config.TextColumn(help="'SRA' if data to be download from SRA database or path to the directory containing the raw fastq files", required=True, default="SRA", validate=r"^(?!.*\s)(?!.*__)(?!.*').*$"),
-        "paired": st.column_config.SelectboxColumn(help="Whether data is single-end (SE) or paired-end (PE)", required=True, default="SE", options=["SE","PE"]),
+        "fastq_path": st.column_config.TextColumn(help="'SRA' if data to be download from SRA database or path to the directory containing the raw fastq files", required=True, validate=r"^(?!.*\s)(?!.*__)(?!.*').*$"),
+        "paired": st.column_config.SelectboxColumn(help="Whether data is single-end (SE) or paired-end (PE)", required=True, options=["SE","PE"]),
         "reference_genome": st.column_config.TextColumn(help="Name of the reference genome to align the data to", required=True, validate=r"^(?!.*\s)(?!.*__)(?!.*').*$")
                })
 

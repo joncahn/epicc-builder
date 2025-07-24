@@ -190,7 +190,7 @@ with st.expander("⚙️ Advanced Options", expanded=False):
                 srna_heatmap_size = []
                 st.write("Select the sizes to use for plotting in heatmaps and profiles:")
                 for i in range(srna_min_size, srna_max_size + 1):
-                        default_on = True if i in [21,24]
+                        default_on = i in [21,24]
                         if st.checkbox(f"Plot {i}nt sRNAs", key=f"chk_{i}", value=default_on):
                                 srna_heatmap_size.append(i)
 

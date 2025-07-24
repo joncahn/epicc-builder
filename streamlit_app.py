@@ -49,7 +49,7 @@ def validations_columns(data_type):
         return re.compile(r"^mC$")
     elif data_type.startswith("TF_"):
         return re.compile(r"^(IP|IPb|Input)$")
-    elif data_type.startswith("ChIP_"):
+    elif data_type.startswith("ChIP"):
         return re.compile(r"^(?!.*\s)(?!.*__)(?!.*').*$")
 
 def validate_sample_type(row):

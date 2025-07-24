@@ -6,6 +6,9 @@ st.title(":red[Epicc-builder]")
 st.header("create your sample file and config files for the epigenetic button")
 
 st.header("Sample file", divider="red")
+df2 = pd.read_csv("data/sample_file.tsv", sep="\t", header=None,
+                      names=["data_type", "line", "tissue", "sample_type", "replicate", 
+                             "seq_id", "fastq_path", "paired", "reference_genome"])
 df = pd.DataFrame(
     [
             {"data_type": "ChIP", "line": "B73", "tissue": "ears", "sample_type": "H3K27ac", "replicate": "Rep1", "seq_id": "k27ac.rep1", "fastq_path": "/local/path/fastqs", "paired": "PE", "reference_genome": "B73_v5"},
@@ -28,7 +31,7 @@ df = pd.DataFrame(
         ]
 )
     
-edited = st.data_editor(df, hide_index=True, num_rows="dynamic", column_config={
+edited = st.data_editor(df2, hide_index=True, num_rows="dynamic", column_config={
         "data_type": st.column_config.TextColumn(help="Type of data [RNAseq | ChIP_* | TF_* | mC | sRNA]", required=True, validate=r"^(RNAseq|ChIP.*|TF_.*|mC|sRNA)$"),
         "line": st.column_config.TextColumn(help="Can be any information you want to annotate and label samples", required=True, validate=r"^(?!.*\s)(?!.* )(?!.*__)(?!.*').*$"),
         "tissue": st.column_config.TextColumn(help="Can be any information you want to annotate and label samples", required=True, validate=r"^(?!.*\s)(?!.* )(?!.*__)(?!.*').*$"),
@@ -40,7 +43,8 @@ edited = st.data_editor(df, hide_index=True, num_rows="dynamic", column_config={
         "paired": st.column_config.SelectboxColumn(help="Whether data is single-end (SE) or paired-end (PE)", required=True, options=["SE","PE"]),
         "reference_genome": st.column_config.TextColumn(help="Name of the reference genome to align the data to", required=True, validate=r"^(?!.*\s)(?!.* )(?!.*__)(?!.*').*$")
                })
-    
+
+# definitions:
 def validations_columns(data_type):
     if data_type == "RNAseq":
         return re.compile(r"^RNAseq$")
@@ -93,10 +97,6 @@ def assign_chip_input(row, tab):
             if match.empty:
                 return "Sample"          
     return True
-    
-st.header("Config file", divider="red")
-
-st.header("Click the button to check your files!", divider="red")
 
 def check_table(tab):
     err=0
@@ -121,6 +121,11 @@ def check_table(tab):
 
     if err == 0:
         st.success("✅ Samplefile is correct!")
+
+st.header("Config file", divider="red")
+
+
+st.header("Click the button to check your files!", divider="red")
 
 left, middle, right = st.columns(3)
 with middle:

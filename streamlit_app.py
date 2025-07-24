@@ -41,7 +41,7 @@ def validations_columns(data_type):
         return re.compile(r"^(?!.*[\s'\"])(?!.*__).*$")
     
 st.data_editor(df, hide_index=True, num_rows="dynamic", disabled=True, column_config={
-        "data_type": st.column_config.SelectboxColumn(help="Type of data [RNAseq | ChIP_* | TF_* | mC | sRNA]", required=True, default="RNAseq", validate=allowed_dtypes),
+        "data_type": st.column_config.TextColumn(help="Type of data [RNAseq | ChIP_* | TF_* | mC | sRNA]", required=True, default="RNAseq", validate=allowed_dtypes),
         "line": st.column_config.TextColumn(help="Can be any information you want to annotate and label samples", required=True, default="WT", validate=r"^(?!.*[\s'\"])(?!.*__).*$"),
         "tissue": st.column_config.TextColumn(help="Can be any information you want to annotate and label samples", required=True, default="RNAseq", validate=r"^(?!.*[\s'\"])(?!.*__).*$"),
         "sample_type": st.column_config.TextColumn(help="Details on the type of sample: for RNAseq, mC and sRNA use RNAseq, mC and sRNA, respectively. For TF ChIP, use IP (for narrow binding TF), IPb for broad binding, Input for the control. For histone ChIP-seq, use the name of the mark or Input", 

@@ -129,10 +129,10 @@ species = st.text_input("Species name:", value="thaliana")
 
 if species not in ["thaliana","mays"]:
         star_index = st.number_input("number for STAR genomeSAindexNbases", min_value=12, max_value=16, value=12)
-        genomesize = st.number_input("genome size:", value=1.3e8)
+        genomesize = st.number_input("genome size:", value=int(1.3e8))
         ncbiID = st.text_input("NCBI species ID", value="3702") 
         genus = st.text_input("genus", value="Arabidopsis")
-        go_database = st.text_input("GO database", value="org.<firstlettergenus><species>.eg.db")
+        go_database = st.text_input("GO database", value="org.Athaliana.eg.db", help="pattern should be org.<firstlettergenus><species>.eg.db")
 
 st.subheader("Output options")
 full_analysis = st.toggle("Perform full analysis?", value=True)

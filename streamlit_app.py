@@ -98,6 +98,7 @@ def assign_chip_input(row, tab):
                 return "Sample"          
     return True
 
+@st.cache_data
 def check_table(tab):
     err=0
     dup = tab[tab.duplicated(subset=["data_type","line","tissue","sample_type","replicate","reference_genome"], keep=False)]
@@ -129,8 +130,9 @@ st.header("Click the button to check your files!", divider="red")
 
 left, middle, right = st.columns(3)
 with middle:
-    epibtn = st.button("EPIGENETIC 🔘", type="primary")
+    epibtn = st.download_button("EPIGENETIC 🔘", edited, type="primary")
     
 if epibtn: 
     check_table(edited)
+    edited.to_csv("repo_folder/data/sample_file.tsv", sep="\t", index=False)
         

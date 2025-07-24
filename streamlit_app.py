@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import re
+import yaml
 
 st.title(":red[EPICC-builder]")
 st.text("Use this app to create your sample file and config file for the EPICC pipeline:\n"

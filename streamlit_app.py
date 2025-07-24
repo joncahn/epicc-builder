@@ -3,7 +3,8 @@ import pandas as pd
 import re
 
 st.title(":red[Epicc-builder]")
-st.header("create your sample file and config files for the epigenetic button")
+st.text("Use this app to create your sample file and config file for the EPICC pipeline:\n
+        see README at https://github.com/joncahn/epigeneticbutton" for more details)
 
 st.header("Sample file", divider="red")
 url = "https://raw.githubusercontent.com/joncahn/epigeneticbutton/refs/heads/main/config/all_samples.tsv"

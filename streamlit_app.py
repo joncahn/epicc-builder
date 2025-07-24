@@ -40,7 +40,7 @@ st.data_editor(df, hide_index=True, num_rows="dynamic", column_config={
         "reference_genome": st.column_config.TextColumn(help="Name of the reference genome to align the data to", required=True, validate=r"^(?!.*\s)(?!.*__)(?!.*').*$")
                })
 
-def validations_columns(df):
+def validations_columns(data_type):
     if data_type == "RNAseq":
         return re.compile(r"^RNAseq$")
     elif data_type == "sRNA":

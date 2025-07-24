@@ -27,7 +27,7 @@ df = pd.DataFrame(
         ]
 )
     
-st.data_editor(df, hide_index=True, num_rows="dynamic", disabled=True, column_config={
+st.data_editor(df, hide_index=True, num_rows="dynamic", column_config={
         "data_type": st.column_config.TextColumn(help="Type of data [RNAseq | ChIP_* | TF_* | mC | sRNA]", required=True, default="RNAseq", validate=r"^(RNAseq|ChIP_.*|TF_.*|mC|sRNA)$"),
         "line": st.column_config.TextColumn(help="Can be any information you want to annotate and label samples", required=True, default="WT", validate=r"^(?!.*\s)(?!.*__)(?!.*').*$"),
         "tissue": st.column_config.TextColumn(help="Can be any information you want to annotate and label samples", required=True, default="RNAseq", validate=r"^(?!.*\s)(?!.*__)(?!.*').*$"),

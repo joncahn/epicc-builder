@@ -124,6 +124,8 @@ def check_table(tab):
 
 left, middle, right = st.columns(3)
 with middle:
-    if st.button("EPIGENETIC 🔘", type="primary"):
-        check_table(edited)
+    epibtn = st.button("EPIGENETIC 🔘", type="primary")
+    
+if epibtn: 
+    check_table(edited)
         

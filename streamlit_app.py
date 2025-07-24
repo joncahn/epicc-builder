@@ -144,13 +144,13 @@ else:
         st.write("Complete analysis deactivated. Only mapping will be performed. 😞")
 
 go = st.toggle("Gene Ontology analysis", value=False, help="Option to perform gene ontology analysis. Requires other input, see Help GO for more details.")
-        if structural_rna_depletion:
-                st.write("Gene Ontology will be performed! Good luck! 🤞")
-                ref_genome = st.text_input("Reference genome to perform GO", value="ColCEN", help="Other prepared option: B73_v5. Add the same name that the reference_genome column of your samplefils. See Help GO for more details.")
-                gaf_file = st.text_input("GAF file", value="data/ColCEN_infoGO.tab.gz", help="File of association of Gene IDs with GO terms. See Help GO for more details.")
-                gene_info_file = st.text_input("Gene info file", value="data/ColCEN_genes_info.tab.gz", help="File with details on Gene IDs. See Help GO for more details.")
-        else:
-                st.write("Gene ontology deactivated. Probably safer! 😥")
+if go:
+        st.write("Gene Ontology will be performed! Good luck! 🤞")
+        ref_genome = st.text_input("Reference genome to perform GO", value="ColCEN", help="Other prepared option: B73_v5. Add the same name that the reference_genome column of your samplefils. See Help GO for more details.")
+        gaf_file = st.text_input("GAF file", value="data/ColCEN_infoGO.tab.gz", help="File of association of Gene IDs with GO terms. See Help GO for more details.")
+        gene_info_file = st.text_input("Gene info file", value="data/ColCEN_genes_info.tab.gz", help="File with details on Gene IDs. See Help GO for more details.")
+else:
+        st.write("Gene ontology deactivated. Probably safer! 😥")
 motifs = st.toggle("Motifs analysis for TFs", value=True, help="Option to perform motifs analysis for transcription factors.")
 if motifs:
         st.write("Motifs analysis selected! 😀")

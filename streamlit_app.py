@@ -92,24 +92,24 @@ def check_table(tab):
     dup = tab[tab.duplicated(subset=["data_type","line","tissue","sample_type","replicate","reference_genome"], keep=False)]
     if not dup.empty:
         for _,r in dup.iterrows():
-            st.error(f'❌ Duplicated rows: {name(r)}')
+            st.error(f'❌ Duplicated rows: {name(r)} 😕')
             err=1
     for i, (_,row) in enumerate(tab.iterrows(), start=1):
         if not validate_sample_type(row):
-            st.error(f'❌ Row #{i} {name(row)}: sample_type in does not match the data type')
+            st.error(f'❌ Row #{i} {name(row)}: sample_type in does not match the data type 😕')
             err=1
         if not validate_SRA(row):
-            st.error(f'❌ Row #{i} {name(row)}: fastq_path should be set to "SRA" to dowload deposited SRR run or to local directory otherwise')
+            st.error(f'❌ Row #{i} {name(row)}: fastq_path should be set to "SRA" to dowload deposited SRR run or to local directory otherwise 😕')
             err=1
         if assign_chip_input(row, tab) == "Input":
-            st.error(f'❌ Row #{i} {name(row)}: missing a corresponding Input sample')
+            st.error(f'❌ Row #{i} {name(row)}: missing a corresponding Input sample 😕')
             err=1
         elif assign_chip_input(row, tab) == "Sample":
-            st.error(f'❌ Row #{i} {name(row)}: no sample depends on this Input')
+            st.error(f'❌ Row #{i} {name(row)}: no sample depends on this Input 😕')
             err=1
 
     if err == 0:
-        st.success("✅ Samplefile is correct!")
+        st.success("✅ Samplefile is correct! 🥳")
 
 ##
 st.header("Config file", divider="red")
@@ -118,7 +118,7 @@ response = requests.get(url2)
 if response.status_code == 200:
         config = yaml.safe_load(response.text)
 else:
-        st.error("Failed to load YAML from GitHub")
+        st.error("⛔ Failed to load YAML from GitHub ⛔")
 
 st.subheader("Required parameters")
 repo_folder = st.text_input("full path to folder:", value="/path/to/epigeneticbutton/repo", help="full path to where the epigeneticbutton github is cloned")
@@ -136,12 +136,30 @@ if species not in ["thaliana","mays"]:
 
 st.subheader("Output options")
 full_analysis = st.toggle("Complete analysis", value=True)
-if full_analysis:
-        st.write("Complete analysis activated!")
-else:
-        st.write("Complete analysis deactivated. Only mapping will be performed.")
 QC_option = st.selectbox("Choose fastQC options", ["none", "all"])
 chip_mapping_option = st.selectbox("Choose ChIP mapping options", ["default", "repeat", "all", "repeatall"])
+if full_analysis:
+        st.write("Complete analysis activated! Smash that button! 💪")
+else:
+        st.write("Complete analysis deactivated. Only mapping will be performed. 😞")
+
+go = st.toggle("Gene Ontology analysis", value=False, help="Option to perform gene ontology analysis. Requires other input, see Help GO for more details.")
+        if structural_rna_depletion:
+                st.write("Gene Ontology will be performed! Good luck! 🤞")
+                ref_genome = st.text_input("Reference genome to perform GO", value="ColCEN", help="Other prepared option: B73_v5. Add the same name that the reference_genome column of your samplefils. See Help GO for more details.")
+                gaf_file = st.text_input("GAF file", value="data/ColCEN_infoGO.tab.gz", help="File of association of Gene IDs with GO terms. See Help GO for more details.")
+                gene_info_file = st.text_input("Gene info file", value="data/ColCEN_genes_info.tab.gz", help="File with details on Gene IDs. See Help GO for more details.")
+        else:
+                st.write("Gene ontology deactivated. Probably safer! 😥")
+motifs = st.toggle("Motifs analysis for TFs", value=True, help="Option to perform motifs analysis for transcription factors.")
+if motifs:
+        st.write("Motifs analysis selected! 😀")
+        jaspar_db = st.text_input("Database of existing motifs", value="data/JASPAR2024_CORE_plants_non-redundant_pfms_meme.txt", help="Database of existing motifs (can be found on Jaspar website) for tomtom analysis.") 
+        allreps = st.toggle("Motifs on all replicates", value=False, help="Option to perform motifs on all replicates, not only on the merged files")
+        if allreps:
+                st.write("Let's go! Motifs on all individual replicates it is! 💸")
+else:
+        st.write("No motifs analysis will be performed! 😢")
 
 with st.expander("⚙️ Advanced Options", expanded=False):
         with st.expander("ChIP-seq samples", expanded=False):
@@ -179,21 +197,31 @@ with st.expander("⚙️ Advanced Options", expanded=False):
         with st.expander("sRNA samples", expanded=False):
                 trimming_quality = st.text_input("parameters for trimming", key="srna_trimming", value="-q 10 -m 15")
                 adapter1 = st.text_input("adapter sequence", key="srna_adapter1", value="TGGAATTCTCGGGTGCCAAGG")
-                structural_rna_depletion = st.toggle("Depletion of structural RNAs", value=False, help="Option to filter structural RNA (rRNAs, tRNAs, snoRNAs) before mapping. Recommended step when studying microRNAs and small interfering RNAs.")
+                structural_rna_depletion = st.toggle("Depletion of structural RNAs", value=False, help="Option to filter structural RNA (rRNAs, tRNAs, snoRNAs) before mapping. Recommended step when studying microRNAs and small interfering RNAs. Requires other input, see Help Rfam.")
                 if structural_rna_depletion:
-                        st.write("Depletion of structural RNA will be performed!")
-                        structural_rna_file = st.text_input("Fasta file of structural RNAs to use for depletion", value="data/zm_structural_RNAs.fa.gz", help="Default to structural RNAs from Zea mays, prepared through Rfam (see corresponding Help for more details)")
+                        st.write("Depletion of structural RNA will be performed! Good riddance! 🧹")
+                        structural_rna_file = st.text_input("Fasta file of structural RNAs to use for depletion", value="data/zm_structural_RNAs.fa.gz", help="Default to structural RNAs from Zea mays, prepared through Rfam. See Help Rfam for more details.")
                 else:
-                        st.write("Complete analysis deactivated. Only mapping will be performed.")
+                        st.write("No structural RNA depletion. rRNAs, here we come! 🪡")
                 srna_mapping_params = st.text_input("Mapping parameters for sRNA  with ShortStack", value="--mmap u --dicermin 21 --dicermax 24 --dn_mirna --no_bigwigs", help="consider replacing --dn_mirna with --known_miRNAs KNOWN_MIRNAS.fa (but requires fetching miRNAs sequences, from miRBase for example)")
-                srna_min_size, srna_max_size = st.slider("Range of small RNA sizes to keep and create individual bigwig files", min_value=15, max_value=100, value=(21,24))
+                srna_min_size, srna_max_size = st.slider("Range of small RNA sizes to keep and create individual bigwig files", min_value=15, max_value=100, value=(21,24), help="A bigiwig file will be created for each integer value in this range, so don't go too crazy!")
                 srna_heatmap_size = []
                 st.write("Select the sizes to use for plotting in heatmaps and profiles:")
                 for i in range(srna_min_size, srna_max_size + 1):
                         default_on = i in [21,24]
                         if st.checkbox(f"Plot {i}nt sRNAs", key=f"chk_{i}", value=default_on):
                                 srna_heatmap_size.append(i)
-
+        with st.expander("Plotting options", expanded=False):
+                heatmap_scales = st.selectbox("Scales for heatmaps", options=["type","sample","default"], help="'default' = default scaling from deeptools, same scale for all samples; 'sample' = each individual sample has its own scale; 'type' = each type of data is on a different scale (each ChIP mark + each TF + RNA + sRNA + each mC context)")
+                stranded_heatmaps = st.toggle("Stranded heatmaps", value=True, help="Chose whether the heatmap should be done with stranded information or not. If true, lines in the bedfile without strand information (6th column '+' or '-') will not be included.")
+                if stranded_heatmaps:
+                        st.write("Heatmaps will be split by strand and then merged! Awesome! 🔀")
+                else:
+                        st.write("No strandedness in my heatmaps, thank you ➡️")
+                heatmaps_sort_options = st.selectbox("Sort option for heatmaps", options=["mean","median","no"], help="mean = '--sortRegions descend --sortUsing mean'; 'median' = '--sortRegions descend --sortUsing median'; no = '--sortRegions keep'")
+                profiles_scale = st.selectbox("Values for metaplots", options=["mean","median"])
+                profiles_plot_params: st.text_input("Parameters for deeptools plotProfile", value="--plotType 'lines'")
+                
 ##
 st.header("Click the button to check your files!", divider="red")
 

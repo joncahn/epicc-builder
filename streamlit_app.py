@@ -55,12 +55,12 @@ def validations_columns(df):
         return None
 
 def validate_sample_type(row):
-    pattern = validations_columns(row["data_type"])
-    return bool(pattern.fullmatch(row["sample_type"]))
+    pattern = validations_columns(row.data_type)
+    return bool(pattern.fullmatch(row.sample_type))
 
 def validate_SRA(row):
-    if row["seq_id"].startswith("SRR"):
-        return bool(row["fastq_path"]=="SRA")
+    if row.seq_id.startswith("SRR"):
+        return bool(row.fastq_path=="SRA")
 
 st.header("Config file")
 

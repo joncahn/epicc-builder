@@ -64,7 +64,7 @@ st.header("Config file")
 
 st.header("Click the button to generate your files!")
 
-if st.button("EPIGENETIC", type="primary", icon=":material/button:"):
+if st.button("🔘 EPIGENETIC 🔘", type="primary"):
     for _, row in df.iterrows():
         if not validate_sample_type(row):
             raiseValue(f'sample_type in row.index does not match the data type') 

@@ -8,7 +8,7 @@ st.text("Use this app to create your sample file and config file for the EPICC p
 
 left, middle, right = st.columns(3)
 with middle:
-        st.link_button("EPICC epigeneticbutton", "https://github.com/joncahn/epigeneticbutton")
+        st.link_button("EPICC / epigeneticbutton", "https://github.com/joncahn/epigeneticbutton")
 
 st.header("Sample file", divider="red")
 url = "https://raw.githubusercontent.com/joncahn/epigeneticbutton/refs/heads/main/config/all_samples.tsv"

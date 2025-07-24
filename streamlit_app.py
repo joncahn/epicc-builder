@@ -69,11 +69,15 @@ st.header("Config file")
 st.header("Click the button to generate your files!")
 
 if st.button("EPIGENETIC 🔘", type="primary"):
+    err=0
     i=1
     for _, row in df.iterrows():
         if not validate_sample_type(row):
-            st.error(f'❌ Row #{i} {name(row)}: sample_type in does not match the data type') 
+            st.error(f'❌ Row #{i} {name(row)}: sample_type in does not match the data type')
+            err=1
         if not validate_SRA(row):
             st.error(f'❌ Row #{i} {name(row)}: fastq_path should be set to "SRA" to dowload deposited SRR run')
+            err=1
         i+=1
-    st.success("✅ Samplefile is correct!")
+    if err == 0:
+        st.success("✅ Samplefile is correct!")

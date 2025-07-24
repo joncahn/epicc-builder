@@ -28,7 +28,7 @@ df = pd.DataFrame(
 )
     
 st.data_editor(df, hide_index=True, num_rows="dynamic", column_config={
-        "data_type": st.column_config.TextColumn(help="Type of data [RNAseq | ChIP_* | TF_* | mC | sRNA]", required=True, validate=r"^(RNAseq|ChIP_.*|TF_.*|mC|sRNA)$"),
+        "data_type": st.column_config.TextColumn(help="Type of data [RNAseq | ChIP_* | TF_* | mC | sRNA]", required=True, validate=r"^(RNAseq|ChIP.*|TF_.*|mC|sRNA)$"),
         "line": st.column_config.TextColumn(help="Can be any information you want to annotate and label samples", required=True, validate=r"^(?!.*\s)(?!.* )(?!.*__)(?!.*').*$"),
         "tissue": st.column_config.TextColumn(help="Can be any information you want to annotate and label samples", required=True, validate=r"^(?!.*\s)(?!.* )(?!.*__)(?!.*').*$"),
         "sample_type": st.column_config.TextColumn(help="Details on the type of sample: for RNAseq, mC and sRNA use RNAseq, mC and sRNA, respectively. For TF ChIP, use IP (for narrow binding TF), IPb for broad binding, Input for the control. For histone ChIP-seq, use the name of the mark or Input", 
@@ -57,8 +57,12 @@ def validate_sample_type(row):
     return bool(pattern and pattern.fullmatch(row.sample_type))
 
 def validate_SRA(row):
-    if row.seq_id.startswith("SRR"):
-        return row.fastq_path == "SRA"
+    id = str(row.seq_id)
+    path = str(row.seq_id)
+    if id.startswith("SRR"):
+        return path == "SRA"
+    if path == "SRA":
+        return id.startswith("SRR")
     return True
 
 def name(row):
@@ -75,7 +79,7 @@ if st.button("EPIGENETIC 🔘", type="primary"):
             st.error(f'❌ Row #{i} {name(row)}: sample_type in does not match the data type')
             err=1
         if not validate_SRA(row):
-            st.error(f'❌ Row #{i} {name(row)}: fastq_path should be set to "SRA" to dowload deposited SRR run')
+            st.error(f'❌ Row #{i} {name(row)}: fastq_path should be set to "SRA" to dowload deposited SRR run or to local directory otherwise')
             err=1
         i+=1
     if err == 0:

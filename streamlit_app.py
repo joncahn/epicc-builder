@@ -69,6 +69,6 @@ st.header("Click the button to generate your files!")
 if st.button("EPIGENETIC", type="primary", key="epibtn"):
     for _, row in df.iterrows():
         if not validate_sample_type(row):
-            raiseValue(f"sample_type in row.index does not match the data type") 
+            raiseValue(f'sample_type in row.index does not match the data type') 
         if not validate_SRA(row):
-            raiseValue(f"fastq_path should be set to "SRA" to dowload deposited SRR run")
+            raiseValue('fastq_path should be set to "SRA" to dowload deposited SRR run')

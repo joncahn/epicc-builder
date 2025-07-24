@@ -80,7 +80,6 @@ def assign_chip_input(row, tab):
                 return "Sample"          
     return True
 
-@st.cache_data
 def check_table(tab):
     err=0
     dup = tab[tab.duplicated(subset=["data_type","line","tissue","sample_type","replicate","reference_genome"], keep=False)]

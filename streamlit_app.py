@@ -22,3 +22,5 @@ df = pd.DataFrame(
             {"data_type": "mC", "line": "Col0", "tissue": "mutant", "sample_type": "mC", "replicate": "Rep1", "seq_id": "SRR49303293", "fastq_path": "SRA", "paired": "PE", "reference_genome": "W22_v2"}
         ]
 )
+
+st.table(df)

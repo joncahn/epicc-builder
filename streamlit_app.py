@@ -13,7 +13,7 @@ df = pd.DataFrame(
             {"data_type": "ChIP_A", "line": "B73", "tissue": "ears", "sample_type": "Input", "replicate": "Rep1", "seq_id": "SRR49303293", "fastq_path": "SRA", "paired": "SE", "reference_genome": "B73_v5"},
             {"data_type": "TF_TB1", "line": "B73", "tissue": "leaves", "sample_type": "IP", "replicate": "Rep1", "seq_id": "SRR49303293", "fastq_path": "SRA", "paired": "SE", "reference_genome": "B73_v5"},
             {"data_type": "TF_TB1", "line": "B73", "tissue": "leaves", "sample_type": "Input", "replicate": "Rep1", "seq_id": "SRR49303293", "fastq_path": "SRA", "paired": "SE", "reference_genome": "B73_v5"},
-            {"data_type": "RNAseq", "line": "B73", "tissue": "leaves", "sample_type": "RNAseq", "replicate": "Rep1", "seq_id": "SRR49303293", "fastq_path": "SRA", "paired": "SE", "reference_genome": "B73_v5"},
+            {"data_type": "RNAseq", "line": "WT", "tissue": "leaves", "sample_type": "RNAseq", "replicate": "Rep1", "seq_id": "SRR49303293", "fastq_path": "SRA", "paired": "SE", "reference_genome": "B73_v5"},
             {"data_type": "RNAseq", "line": "WT", "tissue": "leaves", "sample_type": "RNAseq", "replicate": "Rep2", "seq_id": "SRR49303293", "fastq_path": "SRA", "paired": "SE", "reference_genome": "B73_v5"},
             {"data_type": "RNAseq", "line": "WT", "tissue": "leaves", "sample_type": "RNAseq", "replicate": "Rep3", "seq_id": "SRR49303293", "fastq_path": "SRA", "paired": "SE", "reference_genome": "B73_v5"},
             {"data_type": "RNAseq", "line": "mutant", "tissue": "leaves", "sample_type": "RNAseq", "replicate": "Rep1", "seq_id": "SRR49303293", "fastq_path": "SRA", "paired": "SE", "reference_genome": "B73_v5"},
@@ -39,7 +39,7 @@ edited = st.data_editor(df, hide_index=True, num_rows="dynamic", column_config={
         "paired": st.column_config.SelectboxColumn(help="Whether data is single-end (SE) or paired-end (PE)", required=True, options=["SE","PE"]),
         "reference_genome": st.column_config.TextColumn(help="Name of the reference genome to align the data to", required=True, validate=r"^(?!.*\s)(?!.* )(?!.*__)(?!.*').*$")
                })
-
+    
 def validations_columns(data_type):
     if data_type == "RNAseq":
         return re.compile(r"^RNAseq$")
@@ -99,6 +99,11 @@ st.header("Click the button to generate your files!")
 
 if st.button("EPIGENETIC", type="primary", icon="🔘"):
     err=0
+    dup = edited[edited.duplicated(subset=["data_type","line","tissue","sample_type","replicate","reference_genome"], keep=False)]
+    if dup:
+        for _,r in dup.iterrows():
+            st.error(f'❌ Duplicated rows: name(row)')
+            err=1
     for i, (_,row) in enumerate(edited.iterrows(), start=1):
         if not validate_sample_type(row):
             st.error(f'❌ Row #{i} {name(row)}: sample_type in does not match the data type')

@@ -72,4 +72,4 @@ if st.button("EPIGENETIC 🔘", type="primary"):
         if not validate_SRA(row):
             ValueError('Row {row.name}: fastq_path should be set to "SRA" to dowload deposited SRR run')
 
-    print("Samplefile is correct!") 
+    st.success("✅ Samplefile is correct!")

@@ -11,8 +11,8 @@ with middle:
         st.link_button("EPICC / epigeneticbutton", "https://github.com/joncahn/epigeneticbutton")
 
 st.header("Sample file", divider="red")
-url = "https://raw.githubusercontent.com/joncahn/epigeneticbutton/refs/heads/main/config/all_samples.tsv"
-df = pd.read_csv(url, sep="\t", header=None,
+url1 = "https://raw.githubusercontent.com/joncahn/epigeneticbutton/refs/heads/main/config/all_samples.tsv"
+df = pd.read_csv(url1, sep="\t", header=None,
                       names=["data_type", "line", "tissue", "sample_type", "replicate", 
                              "seq_id", "fastq_path", "paired", "reference_genome"])
 
@@ -109,9 +109,53 @@ def check_table(tab):
     if err == 0:
         st.success("✅ Samplefile is correct!")
 
+##
 st.header("Config file", divider="red")
+url2 = "https://raw.githubusercontent.com/joncahn/epigeneticbutton/refs/heads/main/config/config.yaml"
+config = yaml.safe_load(url2)
 
+st.subheader("Required parameters")
+repo_folder = st.text_input("full path to folder:", value="/path/to/epigeneticbutton/repo")
+analysis_name = st.text_input("name of the run:", value="test_smk")
+sample_file = st.text_input("path to sample file:", value="config/all_samples.tsv")
+ref_path = st.text_input("path to reference genome directory:", value="path/to/reference/genomes")
+species = st.text_input("Species name:", value="thaliana")
 
+if species not in ["thaliana","mays"]:
+        star_index = st.number_input("number for STAR genomeSAindexNbases", min_value=12, max_value=16, value=12)
+        genomesize = st.number_input("genome size:", value=1.3e8)
+        ncbiID = st.text_input("NCBI species ID", value="3702") 
+        genus = st.text_input("genus", value="Arabidopsis")
+        go_database = st.text_input("GO database", value="org.<firstlettergenus><species>.eg.db")
+
+st.subheader("Output options")
+full_analysis = st.toggle("Perform full analysis?", value=True)
+QC_option = st.selectbox("Choose fastQC options", ["none", "all"])
+chip_mapping_option = st.selectbox("Choose ChIP mapping options", ["default", "repeat", "all", "repeatall"])
+
+with st.expander("⚙️ Advanced Options", expanded=False):
+        with st.expander("ChIP-seq samples", expanded=False):
+                trimming_quality = st.text_input("parameters for trimming", value="-q 10 -m 20")
+                adapter1 = st.text_input("adapter sequence", value="AGATCGGAAGAGCACACGTCTGAAC")
+                bs = st.number_input("binsize for bigiwgs", min=1, max=1e6, value=1)
+                params_bw = st.text_input("parameters for generating bigwigs", value="--scaleFactorsMethod 'None' --normalizeUsing CPM --extendReads 300")
+                params_macs2 = st.text_input("parameters for peak calling with macs2", value = "--keep-dup 'all' --nomodel")
+                peaktype = config["chip_callpeaks"]["peaktype"]
+                st.markdown("Current peaktypes per mark:")
+                for pattern, peak_type in peaktype.items():
+                        st.markdown(f"{pattern}: `{peak_type}`")
+                new_pattern = st.text_input("New or update histone mark", key="new_pattern").strip()
+                new_type = st.radio("Peak type", ["narrow", "broad"], key="new_type")
+                if st.button("Add or replace entry"):
+                        if new_patttern:
+                                peaktype = {k: v for k, v in peaktype.items() if k != new_pattern}
+                                peaktype[new_pattern] = new_type
+                                st.success(f"Pattern {new_pattern} set to {new_type}")
+                        else:
+                                st.error("Pattern is empty")
+                config["chip_callpeaks"]["peaktype"] = peaktype
+
+##
 st.header("Click the button to check your files!", divider="red")
 
 left, middle, right = st.columns(3)

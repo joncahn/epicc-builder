@@ -100,9 +100,9 @@ st.header("Click the button to generate your files!")
 if st.button("EPIGENETIC", type="primary", icon="🔘"):
     err=0
     dup = edited[edited.duplicated(subset=["data_type","line","tissue","sample_type","replicate","reference_genome"], keep=False)]
-    if dup:
+    if not dup.empty:
         for _,r in dup.iterrows():
-            st.error(f'❌ Duplicated rows: name(row)')
+            st.error(f'❌ Duplicated rows: {name(r)}')
             err=1
     for i, (_,row) in enumerate(edited.iterrows(), start=1):
         if not validate_sample_type(row):

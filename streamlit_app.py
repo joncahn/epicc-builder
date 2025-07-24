@@ -180,7 +180,7 @@ with st.expander("⚙️ Advanced Options", expanded=False):
                 else:
                         st.write("Complete analysis deactivated. Only mapping will be performed.")
                 srna_mapping_params = st.text_input("Mapping parameters for sRNA  with ShortStack", value="--mmap u --dicermin 21 --dicermax 24 --dn_mirna --no_bigwigs", help="consider replacing --dn_mirna with --known_miRNAs KNOWN_MIRNAS.fa (but requires fetching miRNAs sequences, from miRBase for example)")
-                srna_min_size, srna_max_size = st.slider("Range of small RNA sizes to keep and create individual bigwig files", options=[20,100], value=[21,24])
+                srna_min_size, srna_max_size = st.slider("Range of small RNA sizes to keep and create individual bigwig files", min_value=20, max_value=100, value=(21,24))
                 srna_heatmap_size = []
                 st.write("Select the sizes to use for plotting in heatmaps and profiles:")
                 for i in range(srna_min_size, srna_max_size + 1):

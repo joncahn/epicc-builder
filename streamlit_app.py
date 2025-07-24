@@ -62,7 +62,7 @@ def validate_SRA(row):
     return True
 
 def name(row):
-    return f"{row.data_type}_{row_line}_{row.tissue}_{row.sample_type}"
+    return f"{row.data_type}_{row.line}_{row.tissue}_{row.sample_type}"
 
 st.header("Config file")
 

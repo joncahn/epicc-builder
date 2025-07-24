@@ -6,7 +6,8 @@ st.title(":red[Epicc-builder]")
 st.header("create your sample file and config files for the epigenetic button")
 
 st.header("Sample file", divider="red")
-df2 = pd.read_csv("data/sample_file.tsv", sep="\t", header=None,
+url = "https://raw.githubusercontent.com/joncahn/epigeneticbutton/main/config/sample_file.tsv"
+df2 = pd.read_csv(url, sep="\t", header=None,
                       names=["data_type", "line", "tissue", "sample_type", "replicate", 
                              "seq_id", "fastq_path", "paired", "reference_genome"])
 df = pd.DataFrame(

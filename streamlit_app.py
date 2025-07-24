@@ -143,7 +143,7 @@ with st.expander("⚙️ Advanced Options", expanded=False):
         with st.expander("ChIP-seq samples", expanded=False):
                 trimming_quality = st.text_input("parameters for trimming", value="-q 10 -m 20")
                 adapter1 = st.text_input("adapter sequence", value="AGATCGGAAGAGCACACGTCTGAAC")
-                bs = st.number_input("binsize for bigiwgs", min=1, max=1e6, value=1)
+                bs = st.number_input("binsize for bigwigs", min_value=1, max_value=int(1e6), value=1)
                 params_bw = st.text_input("parameters for generating bigwigs", value="--scaleFactorsMethod 'None' --normalizeUsing CPM --extendReads 300")
                 params_macs2 = st.text_input("parameters for peak calling with macs2", value = "--keep-dup 'all' --nomodel")
                 peaktype = config["chip_callpeaks"]["peaktype"]

@@ -2,10 +2,10 @@ import streamlit as st
 import pandas as pd
 import re
 
-st.title("Epicc-builder:")
-st.title("create your sample file and config files for the epigenetic button")
+st.title(":red[Epicc-builder]")
+st.header("create your sample file and config files for the epigenetic button")
 
-st.header("Sample file")
+st.header("Sample file", divider="red")
 df = pd.DataFrame(
     [
             {"data_type": "ChIP", "line": "B73", "tissue": "ears", "sample_type": "H3K27ac", "replicate": "Rep1", "seq_id": "k27ac.rep1", "fastq_path": "/local/path/fastqs", "paired": "PE", "reference_genome": "B73_v5"},
@@ -69,55 +69,61 @@ def validate_SRA(row):
 def name(row):
     return f"{row.data_type}_{row.line}_{row.tissue}_{row.sample_type}"
 
-def assign_chip_input(row):
+def assign_chip_input(row, tab):
     dtype = row.data_type
     stype = row.sample_type
     if (dtype.startswith("TF") or dtype.startswith("ChIP")): 
         if stype != "Input":
-            match = edited[
-                (edited["data_type"]==row.data_type) &
-                (edited["line"]==row.line) &
-                (edited["tissue"]==row.tissue) &
-                (edited["sample_type"]=="Input") &
-                (edited["reference_genome"]==row.reference_genome)]
+            match = tab[
+                (tab["data_type"]==row.data_type) &
+                (tab["line"]==row.line) &
+                (tab["tissue"]==row.tissue) &
+                (tab["sample_type"]=="Input") &
+                (tab["reference_genome"]==row.reference_genome)]
             if match.empty:
                 return "Input"
 
         if stype == "Input":
-            match = edited[
-                (edited["data_type"]==row.data_type) &
-                (edited["line"]==row.line) &
-                (edited["tissue"]==row.tissue) &
-                (edited["sample_type"] != "Input") &
-                (edited["reference_genome"]==row.reference_genome)]
+            match = tab[
+                (tab["data_type"]==row.data_type) &
+                (tab["line"]==row.line) &
+                (tab["tissue"]==row.tissue) &
+                (tab["sample_type"] != "Input") &
+                (tab["reference_genome"]==row.reference_genome)]
             if match.empty:
                 return "Sample"          
     return True
     
-st.header("Config file")
+st.header("Config file", divider="red")
 
-st.header("Click the button to generate your files!")
+st.header("Click the button to check your files!", divider="red")
 
-if st.button("EPIGENETIC 🔘", type="primary"):
+def check_table(tab):
     err=0
-    dup = edited[edited.duplicated(subset=["data_type","line","tissue","sample_type","replicate","reference_genome"], keep=False)]
+    dup = tab[tab.duplicated(subset=["data_type","line","tissue","sample_type","replicate","reference_genome"], keep=False)]
     if not dup.empty:
         for _,r in dup.iterrows():
             st.error(f'❌ Duplicated rows: {name(r)}')
             err=1
-    for i, (_,row) in enumerate(edited.iterrows(), start=1):
+    for i, (_,row) in enumerate(tab.iterrows(), start=1):
         if not validate_sample_type(row):
             st.error(f'❌ Row #{i} {name(row)}: sample_type in does not match the data type')
             err=1
         if not validate_SRA(row):
             st.error(f'❌ Row #{i} {name(row)}: fastq_path should be set to "SRA" to dowload deposited SRR run or to local directory otherwise')
             err=1
-        if assign_chip_input(row) == "Input":
+        if assign_chip_input(row, tab) == "Input":
             st.error(f'❌ Row #{i} {name(row)}: missing a corresponding Input sample')
             err=1
-        elif assign_chip_input(row) == "Sample":
+        elif assign_chip_input(row, tab) == "Sample":
             st.error(f'❌ Row #{i} {name(row)}: no sample depends on this Input')
             err=1
 
     if err == 0:
         st.success("✅ Samplefile is correct!")
+
+left, middle, right = st.columns(3)
+with middle:
+    if st.button("EPIGENETIC 🔘", type="primary"):
+        check_table(edited)
+        

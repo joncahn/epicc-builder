@@ -28,10 +28,12 @@ edited = st.data_editor(df, hide_index=True, num_rows="dynamic", column_config={
 def validations_columns(data_type):
     if data_type == "RNAseq":
         return re.compile(r"^RNAseq$")
+    elif data_type == "RAMPAGE":
+        return re.compile(r"^RAMPAGE$")
     elif data_type == "sRNA":
-        return re.compile(r"^sRNA$")
+        return re.compile(r"^(sRNA|smallRNA|shRNA)$")
     elif data_type == "mC":
-        return re.compile(r"^mC$")
+        return re.compile(r"^(mC|WGBS|ONT|Pico|EMseq)$")
     elif data_type.startswith("TF_"):
         return re.compile(r"^(IP|IPb|Input)$")
     elif data_type.startswith("ChIP"):

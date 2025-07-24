@@ -7,32 +7,11 @@ st.header("create your sample file and config files for the epigenetic button")
 
 st.header("Sample file", divider="red")
 url = "https://raw.githubusercontent.com/joncahn/epigeneticbutton/refs/heads/main/config/all_samples.tsv"
-df2 = pd.read_csv(url, sep="\t", header=None,
+df = pd.read_csv(url, sep="\t", header=None,
                       names=["data_type", "line", "tissue", "sample_type", "replicate", 
                              "seq_id", "fastq_path", "paired", "reference_genome"])
-df = pd.DataFrame(
-    [
-            {"data_type": "ChIP", "line": "B73", "tissue": "ears", "sample_type": "H3K27ac", "replicate": "Rep1", "seq_id": "k27ac.rep1", "fastq_path": "/local/path/fastqs", "paired": "PE", "reference_genome": "B73_v5"},
-            {"data_type": "ChIP", "line": "B73", "tissue": "ears", "sample_type": "Input", "replicate": "Rep1", "seq_id": "input.rep1", "fastq_path": "/local/path/fastqs", "paired": "PE", "reference_genome": "B73_v5"},
-            {"data_type": "ChIP_A", "line": "B73", "tissue": "ears", "sample_type": "H3K4me1", "replicate": "Rep1", "seq_id": "SRR49043094", "fastq_path": "SRA", "paired": "SE", "reference_genome": "B73_v5"},
-            {"data_type": "ChIP_A", "line": "B73", "tissue": "ears", "sample_type": "Input", "replicate": "Rep1", "seq_id": "SRR49303293", "fastq_path": "SRA", "paired": "SE", "reference_genome": "B73_v5"},
-            {"data_type": "TF_TB1", "line": "B73", "tissue": "leaves", "sample_type": "IP", "replicate": "Rep1", "seq_id": "SRR49303293", "fastq_path": "SRA", "paired": "SE", "reference_genome": "B73_v5"},
-            {"data_type": "TF_TB1", "line": "B73", "tissue": "leaves", "sample_type": "Input", "replicate": "Rep1", "seq_id": "SRR49303293", "fastq_path": "SRA", "paired": "SE", "reference_genome": "B73_v5"},
-            {"data_type": "RNAseq", "line": "WT", "tissue": "leaves", "sample_type": "RNAseq", "replicate": "Rep1", "seq_id": "SRR49303293", "fastq_path": "SRA", "paired": "SE", "reference_genome": "B73_v5"},
-            {"data_type": "RNAseq", "line": "WT", "tissue": "leaves", "sample_type": "RNAseq", "replicate": "Rep2", "seq_id": "SRR49303293", "fastq_path": "SRA", "paired": "SE", "reference_genome": "B73_v5"},
-            {"data_type": "RNAseq", "line": "WT", "tissue": "leaves", "sample_type": "RNAseq", "replicate": "Rep3", "seq_id": "SRR49303293", "fastq_path": "SRA", "paired": "SE", "reference_genome": "B73_v5"},
-            {"data_type": "RNAseq", "line": "mutant", "tissue": "leaves", "sample_type": "RNAseq", "replicate": "Rep1", "seq_id": "SRR49303293", "fastq_path": "SRA", "paired": "SE", "reference_genome": "B73_v5"},
-            {"data_type": "RNAseq", "line": "mutant", "tissue": "leaves", "sample_type": "RNAseq", "replicate": "Rep2", "seq_id": "SRR49303293", "fastq_path": "SRA", "paired": "SE", "reference_genome": "B73_v5"},
-            {"data_type": "sRNA", "line": "W22", "tissue": "leaves", "sample_type": "sRNA", "replicate": "Rep1", "seq_id": "SRR49303293", "fastq_path": "SRA", "paired": "SE", "reference_genome": "W22_v2"},
-            {"data_type": "sRNA", "line": "W22", "tissue": "leaves", "sample_type": "sRNA", "replicate": "Rep2", "seq_id": "SRR49303293", "fastq_path": "SRA", "paired": "SE", "reference_genome": "W22_v2"},
-            {"data_type": "sRNA", "line": "W22", "tissue": "pollen", "sample_type": "sRNA", "replicate": "Rep1", "seq_id": "SRR49303293", "fastq_path": "SRA", "paired": "SE", "reference_genome": "W22_v2"},
-            {"data_type": "sRNA", "line": "W22", "tissue": "pollen", "sample_type": "sRNA", "replicate": "Rep2", "seq_id": "SRR49303293", "fastq_path": "SRA", "paired": "SE", "reference_genome": "W22_v2"},
-            {"data_type": "mC", "line": "Col0", "tissue": "WT", "sample_type": "mC", "replicate": "Rep1", "seq_id": "SRR49303293", "fastq_path": "SRA", "paired": "PE", "reference_genome": "W22_v2"},
-            {"data_type": "mC", "line": "Col0", "tissue": "mutant", "sample_type": "mC", "replicate": "Rep1", "seq_id": "SRR49303293", "fastq_path": "SRA", "paired": "PE", "reference_genome": "W22_v2"}
-        ]
-)
-    
-edited = st.data_editor(df2, hide_index=True, num_rows="dynamic", column_config={
+
+edited = st.data_editor(df, hide_index=True, num_rows="dynamic", column_config={
         "data_type": st.column_config.TextColumn(help="Type of data [RNAseq | ChIP_* | TF_* | mC | sRNA]", required=True, validate=r"^(RNAseq|ChIP.*|TF_.*|mC|sRNA)$"),
         "line": st.column_config.TextColumn(help="Can be any information you want to annotate and label samples", required=True, validate=r"^(?!.*\s)(?!.* )(?!.*__)(?!.*').*$"),
         "tissue": st.column_config.TextColumn(help="Can be any information you want to annotate and label samples", required=True, validate=r"^(?!.*\s)(?!.* )(?!.*__)(?!.*').*$"),
@@ -135,5 +114,4 @@ with middle:
     
 if epibtn: 
     check_table(edited)
-    edited.to_csv("repo_folder/data/sample_file.tsv", sep="\t", index=False)
         

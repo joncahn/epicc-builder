@@ -23,5 +23,8 @@ df = pd.DataFrame(
         ]
 )
 
-st.table(df)
+element = st.dataframe(df)
+element.add_rows(df)
+
+st.button("EPIGENETIC")
 

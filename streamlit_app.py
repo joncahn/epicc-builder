@@ -72,8 +72,8 @@ if st.button("EPIGENETIC 🔘", type="primary"):
     i=1
     for _, row in df.iterrows():
         if not validate_sample_type(row):
-            st.error(f'❌ Row #{i} name(row): sample_type in does not match the data type') 
+            st.error(f'❌ Row #{i} {name(row)}: sample_type in does not match the data type') 
         if not validate_SRA(row):
-            st.error('❌ Row #{i} name(row): fastq_path should be set to "SRA" to dowload deposited SRR run')
+            st.error(f'❌ Row #{i} {name(row)}: fastq_path should be set to "SRA" to dowload deposited SRR run')
         i+=1
     st.success("✅ Samplefile is correct!")

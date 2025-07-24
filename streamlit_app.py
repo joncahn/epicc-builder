@@ -54,21 +54,22 @@ def validations_columns(data_type):
 
 def validate_sample_type(row):
     pattern = validations_columns(row.data_type)
-    return bool(pattern.fullmatch(row.sample_type))
+    return bool(pattern and pattern.fullmatch(row.sample_type))
 
 def validate_SRA(row):
     if row.seq_id.startswith("SRR"):
-        return bool(row.fastq_path=="SRA")
+        return row.fastq_path == "SRA"
+    return True
 
 st.header("Config file")
 
 st.header("Click the button to generate your files!")
 
-if st.button("🔘 EPIGENETIC 🔘", type="primary"):
+if st.button("EPIGENETIC 🔘", type="primary"):
     for _, row in df.iterrows():
         if not validate_sample_type(row):
-            raiseValue(f'sample_type in row.index does not match the data type') 
+            ValueError(f'Row {row.name}: sample_type in does not match the data type') 
         if not validate_SRA(row):
-            raiseValue('fastq_path should be set to "SRA" to dowload deposited SRR run')
+            ValueError('Row {row.name}: fastq_path should be set to "SRA" to dowload deposited SRR run')
 
     print("Samplefile is correct!") 

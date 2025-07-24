@@ -58,7 +58,7 @@ def validate_sample_type(row):
 
 def validate_SRA(row):
     id = str(row.seq_id)
-    path = str(row.seq_id)
+    path = str(row.fastq_path)
     st.write(f"validating SRA: seq_id = {id}; path = {path}")
     if id.startswith("SRR"):
         return path == "SRA"

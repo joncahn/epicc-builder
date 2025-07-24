@@ -70,8 +70,7 @@ st.header("Click the button to generate your files!")
 
 if st.button("EPIGENETIC 🔘", type="primary"):
     err=0
-    i=1
-    for _, row in df.iterrows():
+    for i, (_,row) in enumerate(df.iterrows(), start=1):
         if not validate_sample_type(row):
             st.error(f'❌ Row #{i} {name(row)}: sample_type in does not match the data type')
             err=1

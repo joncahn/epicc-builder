@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import re
 import yaml
+import requests
 
 st.title(":red[EPICC-builder]")
 st.text("Use this app to create your sample file and config file for the EPICC pipeline:\n"
@@ -113,8 +114,11 @@ def check_table(tab):
 ##
 st.header("Config file", divider="red")
 url2 = "https://raw.githubusercontent.com/joncahn/epigeneticbutton/refs/heads/main/config/config.yaml"
-with open(url2, "r"):
-        config = yaml.safe_load(url2)
+response = requests.get(url2)
+if response.status_code == 200:
+        config = yaml.safe_load(response.text)
+else:
+        st.error("Failed to load YAML from GitHub")
 
 st.subheader("Required parameters")
 repo_folder = st.text_input("full path to folder:", value="/path/to/epigeneticbutton/repo")

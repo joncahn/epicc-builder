@@ -253,8 +253,7 @@ with left:
                            data=buffer,
                            file_name="config.yaml",
                            mime="application/x-yaml",
-                           type="primary",
-                           key="configbtn")
+                           type="primary")
 
 with right:
         filename = Path(config["sample_file"]).name
@@ -262,7 +261,6 @@ with right:
                            data=tab,
                            file_name=filename,
                            mime="text/tab-separated-values",
-                           type="primary",
-                           key="configbtn")
+                           type="primary")
 
         

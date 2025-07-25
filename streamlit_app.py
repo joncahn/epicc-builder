@@ -237,7 +237,7 @@ with st.expander("⚙️ Advanced Options", expanded=False):
                 config['profiles_scale'] = st.selectbox("Values for metaplots", options=["mean","median"])
                 config['profiles_plot_params'] = st.text_input("Parameters for deeptools plotProfile", value="--plotType 'lines'")
                 
-st.write("More options are available to those who can directly change the yamls..." 🤓)
+st.write("More options are available to those who can directly change the yamls... 🤓")
 ##
 st.header("Click the buttons to create your files!", divider="red")
 

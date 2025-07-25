@@ -242,8 +242,8 @@ with st.expander("⚙️ Advanced Options", expanded=False):
 st.write("More options are available to those who can directly change the yamls... 🤓")
 ##
 st.header("Click the buttons to create your files!", divider="red")
-
-tab = edited.to_csv(sep="\t", index=False, encoding="utf-8")
+st.write("Make sure you check that your sample file is valid and that all config entries are set!")
+tab = edited.to_csv(sep="\t", index=False, header=False, encoding="utf-8")
 yaml_str = yaml.dump(config, sort_keys=False)
 buffer = io.BytesIO()
 buffer.write(yaml_str.encode("utf-8"))

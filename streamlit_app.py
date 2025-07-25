@@ -116,7 +116,7 @@ st.header("Click the button to check your sample file!", divider="red")
 
 left, middle, right = st.columns(3)
 with middle:
-    epibtn = st.button("EPIGENETIC 🔘", type="primary", key=epibtn)
+    epibtn = st.button("EPIGENETIC 🔘", type="primary")
     
 if epibtn: 
     check_table(edited)

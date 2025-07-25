@@ -141,7 +141,8 @@ config['sample_file'] = st.text_input("path to sample file:", value="config/all_
 config['ref_path'] = st.text_input("path to reference genome directory:", value="path/to/reference/genomes", help="path the the directory which contains all the subdirectories named like 'reference_genome' column above that contains the fasta and annotation files")
 config['species'] = st.text_input("Species name:", value="thaliana", help="'thaliana' and 'mays' are already prepared. A new value will require additional input")
 
-if config['species'] not in ["thaliana","mays"]:
+if config['species'] not in config:
+        config[config['species']] = {}
         config[config['species']]['star_index'] = st.number_input("number for STAR genomeSAindexNbases", min_value=12, max_value=16, value=12)
         config[config['species']]['genomesize'] = st.number_input("genome size:", value=1.3e8, format="%.2e")
         config[config['species']]['ncbiID'] = st.text_input("NCBI species ID", value="3702") 

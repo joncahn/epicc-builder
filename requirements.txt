@@ -1,4 +1,4 @@
 pandas
 streamlit
-pyyaml
+PyYAML
 GitPython

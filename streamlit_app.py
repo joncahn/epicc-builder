@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import re
 import io
-from ruamel.yaml import YAML
+import yaml
 import requests
 from pathlib import Path
 
@@ -127,8 +127,7 @@ st.header("Config file", divider="red")
 url2 = "https://raw.githubusercontent.com/joncahn/epigeneticbutton/refs/heads/main/config/config.yaml"
 response = requests.get(url2)
 if response.status_code == 200:
-        yaml = YAML()
-        config = yaml.load(response.text)
+        config = yaml.safe_load(response.text)
 else:
         st.error("⛔ Failed to load YAML from GitHub ⛔")
         st.write("Sorry, you're on your own! Please refer to the EPICC github")
@@ -245,14 +244,15 @@ st.write("More options are available to those who can directly change the yamls.
 st.header("Click the buttons to create your files!", divider="red")
 
 tab = edited.to_csv(sep="\t", index=False, encoding="utf-8")
-buffer = io.StringIO()
-yaml.dump(config, buffer)
-yaml_text = buffer.getvalue()
+yaml_str = yaml.dump(config, sort_keys=False)
+buffer = io.BytesIO()
+buffer.write(yaml_str.encode("utf-8"))
+buffer.seek(0)
 
 left, right = st.columns(2)
 with left:
         st.download_button("Config 🔘",
-                           data=yaml_text,
+                           data=buffer,
                            file_name="config.yaml",
                            mime="application/x-yaml",
                            type="primary")

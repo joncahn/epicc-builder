@@ -18,18 +18,3 @@ Note2: If you need to change the resources allocations, you will need to do that
 
 ## Click the button!
 Once you have downloaded your two files, put them in the config folder of the epigeneticbutton repository you have cloned and start the pipeline! Refer to the epigenetic button README for how to launch it!
-
-<<<previous>>>
-### How to run it on your own machine
-
-1. Install the requirements
-
-   ```
-   $ pip install -r requirements.txt
-   ```
-
-2. Run the app
-
-   ```
-   $ streamlit run streamlit_app.py
-   ```

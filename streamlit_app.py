@@ -128,11 +128,11 @@ response = requests.get(url2)
 if response.status_code == 200:
         config = yaml.safe_load(response.text)
 else:
-        left, middle, right = st.columns(3)
-        with middle:
         st.error("⛔ Failed to load YAML from GitHub ⛔")
         st.write("Sorry, you're on your own! Please refer to the EPICC github")
-        st.link_button("back to EPICC github", "https://github.com/joncahn/epigeneticbutton")
+        left, middle, right = st.columns(3)
+        with middle:
+                st.link_button("back to EPICC github", "https://github.com/joncahn/epigeneticbutton")
 
 st.subheader("Required parameters")
 config['repo_folder'] = st.text_input("full path to folder:", value="/path/to/epigeneticbutton/repo", help="full path to where the epigeneticbutton github is cloned")

@@ -278,14 +278,6 @@ if "sampledownloaded" not in st.session_state:
 if "configdownloaded" not in st.session_state:
     st.session_state.configdownloaded = False
 
-download_clicked = st.download_button(
-    label="Download file",
-    data=file_content,
-    file_name=file_name,
-    mime="text/plain"
-)
-
-
 left, right = st.columns(2)
 with left:
         filename = Path(config["sample_file"]).name

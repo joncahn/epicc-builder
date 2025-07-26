@@ -5,6 +5,28 @@ import io
 import yaml
 import requests
 from pathlib import Path
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+import json
+
+creds_dict = st.secrets["gcp_service_account"]
+creds_json = json.dumps(creds_dict)
+scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+creds = ServiceAccountCredentials.from_json_keyfile_dict(json.loads(creds_json), scope)
+client = gspread.authorize(creds)
+spreadsheet = client.open("EPICCcounter")
+sheet = spreadsheet.sheet1
+try:
+        countbtn1 = int(sheet.acell('A2').value)
+        countbtn2 = int(sheet.acell('B2').value)
+        countbtn3 = int(sheet.acell('C2').value)
+except:
+        countbtn1 = 0
+        sheet.update('A2', '0')
+        countbtn2 = 0
+        sheet.update('B2', '0')
+        countbtn3 = 0
+        sheet.update('C2', '0')
 
 st.title(":red[EPICC-builder]")
 st.text("Use this app to create your sample file and config file for the EPICC pipeline:\n"
@@ -119,9 +141,12 @@ left, middle, right = st.columns(3)
 with middle:
     epibtn = st.button("EPIGENETIC 🔘", type="primary")
     
-if epibtn: 
-    check_table(edited)
-        
+if epibtn:
+        check_table(edited)
+        countbtn1 += 1
+        sheet.update('A2', str(countbtn1))
+        st.write(f"You're the {countbtn1} to push the button! 🎉") 
+
 ##
 st.header("Config file", divider="red")
 url2 = "https://raw.githubusercontent.com/joncahn/epigeneticbutton/refs/heads/main/config/config.yaml"
@@ -249,20 +274,43 @@ buffer = io.BytesIO()
 buffer.write(yaml_str.encode("utf-8"))
 buffer.seek(0)
 
+if "sampledownloaded" not in st.session_state:
+    st.session_state.sampledownloaded = False
+if "configdownloaded" not in st.session_state:
+    st.session_state.configdownloaded = False
+
+download_clicked = st.download_button(
+    label="Download file",
+    data=file_content,
+    file_name=file_name,
+    mime="text/plain"
+)
+
+
 left, right = st.columns(2)
 with left:
-        st.download_button("Config 🔘",
-                           data=buffer,
-                           file_name="config.yaml",
-                           mime="application/x-yaml",
-                           type="primary")
-
-with right:
         filename = Path(config["sample_file"]).name
-        st.download_button("Samples 🔘",
+        sampledownload = st.download_button("Samples 🔘",
                            data=tab,
                            file_name=filename,
                            mime="text/tab-separated-values",
                            type="primary")
+        if sampledownload and not st.session_state.sampledownloaded:
+                countbtn2 += 1
+                sheet.update('B2', str(countbtn2))
+                st.session_state.sampledownloaded = True
+                st.write(f"Sample files downloaded: {countbtn2} 🎉")
+
+with right:
+        configdownload = st.download_button("Config 🔘",
+                           data=buffer,
+                           file_name="config.yaml",
+                           mime="application/x-yaml",
+                           type="primary")
+        if configdownload and not st.session_state.configdownloaded:
+                countbtn3 += 1
+                sheet.update('C2', str(countbtn3))
+                st.session_state.configdownloaded = True
+                st.write(f"Config files downloaded: {countbtn3} 🎉")
 
         

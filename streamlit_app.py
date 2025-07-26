@@ -13,7 +13,7 @@ creds_dict = st.secrets["gcp_service_account"]
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
 creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
 client = gspread.authorize(creds)
-spreadsheet = client.open("EPICCcounter")
+spreadsheet = client.open_by_key("1mIH-Y7BXiy5FHZiOCvbHf2z2_Bp8zYq-IhMRlp-2CA0")
 sheet = spreadsheet.sheet1
 try:
         countbtn1 = int(sheet.acell('A2').value)

@@ -11,7 +11,7 @@ import json
 
 creds_dict = st.secrets["gcp_service_account"]
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_dict(json.loads(creds_dict), scope)
+creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
 client = gspread.authorize(creds)
 spreadsheet = client.open("EPICCcounter")
 sheet = spreadsheet.sheet1

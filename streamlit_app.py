@@ -139,12 +139,19 @@ st.header("Click the button to check your sample file!", divider="red")
 left, middle, right = st.columns(3)
 with middle:
     epibtn = st.button("EPIGENETIC 🔘", type="primary")
-    
+
+from gspread.exceptions import APIError
+
 if epibtn:
         check_table(edited)
         countbtn1 += 1
-        sheet.update('A2', str(countbtn1))
-        st.write(f"You're the {countbtn1} to push the button! 🎉") 
+        try:
+                sheet.update('A2', str(countbtn1))
+        except APIError as e:
+                st.error("Google Sheets API error during update:")
+                st.text(e.response.text)
+       # sheet.update('A2', str(countbtn1))
+       # st.write(f"You're the {countbtn1} to push the button! 🎉") 
 
 ##
 st.header("Config file", divider="red")

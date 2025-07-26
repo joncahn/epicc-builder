@@ -146,11 +146,11 @@ if epibtn:
         check_table(edited)
         countbtn1 += 1
         try:
-                sheet.update('A2', str(countbtn1))
+                sheet.update_acell('A2', str(countbtn1))
         except APIError as e:
                 st.error("Google Sheets API error during update:")
                 st.text(e.response.text)
-       # sheet.update('A2', str(countbtn1))
+       # sheet.update_acell('A2', str(countbtn1))
        # st.write(f"You're the {countbtn1} to push the button! 🎉") 
 
 ##
@@ -295,7 +295,7 @@ with left:
                            type="primary")
         if sampledownload and not st.session_state.sampledownloaded:
                 countbtn2 += 1
-                sheet.update('B2', str(countbtn2))
+                sheet.update_acell('B2', str(countbtn2))
                 st.session_state.sampledownloaded = True
                 st.write(f"Sample files downloaded: {countbtn2} 🎉")
 
@@ -307,7 +307,7 @@ with right:
                            type="primary")
         if configdownload and not st.session_state.configdownloaded:
                 countbtn3 += 1
-                sheet.update('C2', str(countbtn3))
+                sheet.update_acell('C2', str(countbtn3))
                 st.session_state.configdownloaded = True
                 st.write(f"Config files downloaded: {countbtn3} 🎉")
 

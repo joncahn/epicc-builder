@@ -144,7 +144,8 @@ if epibtn:
         check_table(edited)
         countbtn1 += 1
         sheet.update_acell('A2', str(countbtn1))
-        st.write(f"You're the {countbtn1} to push the button! 🎉") 
+        
+        st.write(f"EPICC button counter: {countbtn1}  🎉")
 
 ##
 st.header("Config file", divider="red")

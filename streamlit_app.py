@@ -261,6 +261,7 @@ with st.expander("⚙️ Advanced Options", expanded=False):
                 else:
                         st.write("No strandedness in my heatmaps, thank you ➡️")
                 config['heatmaps_sort_options'] = st.selectbox("Sort option for heatmaps", options=["mean","median","no"], help="mean = '--sortRegions descend --sortUsing mean'; 'median' = '--sortRegions descend --sortUsing median'; no = '--sortRegions keep'")
+                config['heatmap_sort_mc_after_others'] = st.toggle("Sort mC heatmap based on other samples", value=True, help="Chose whether the heatmaps for mC samples keep the same sort order than the other samples or not.")
                 config['profiles_scale'] = st.selectbox("Values for metaplots", options=["mean","median"])
                 config['profiles_plot_params'] = st.text_input("Parameters for deeptools plotProfile", value="--plotType 'lines'")
                 

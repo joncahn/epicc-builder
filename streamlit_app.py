@@ -235,9 +235,11 @@ with st.expander("⚙️ Advanced Options", expanded=False):
                 config['mC_method'] = st.selectbox("mC library prep method", ["default","WGBS", "Pico", "EMseq"], help="Library preparation method for mC samples. Default is whole-genome bisulphite sequencing.")
                 map_pe = st.number_input("Max insert length", min_value=100, max_value=int(50000), value=1000, help="Value used for --maxins parameter of bismark to limit the maximum distance between reads R1 and R2 in PE data.")
                 config['mC_mapping'][config['mC_method']] = f"--maxins {map_pe}"
+                
         with st.expander("sRNA samples", expanded=False):
                 config['trimming_quality']['sRNA'] = st.text_input("parameters for trimming", key="srna_trimming", value="-q 10 -m 15")
                 config['adapter1']['sRNA'] = st.text_input("adapter sequence", key="srna_adapter1", value="TGGAATTCTCGGGTGCCAAGG")
+                config['netflex_v3_deduplication:'] = st.toggle("Deduplication for libraries made with Netflex V3", value=False, help="Option to further deduplicate reads required for (and only for) libraries made with Netflex v3 kits.")
                 config['structural_rna_depletion'] = st.toggle("Depletion of structural RNAs", value=False, help="Option to filter structural RNA (rRNAs, tRNAs, snoRNAs) before mapping. Recommended step when studying microRNAs and small interfering RNAs. Requires other input, see Help Rfam.")
                 if config['structural_rna_depletion']:
                         st.write("Depletion of structural RNA will be performed! Good riddance! 🧹")

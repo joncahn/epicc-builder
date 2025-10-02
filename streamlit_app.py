@@ -32,7 +32,7 @@ st.text("Use this app to create your sample file and config file for the EPICC p
         "For more details, see README at:")
 
 left, middle, right = st.columns(3)
-with middle:
+with left:
         st.link_button("EPICC / epigeneticbutton", "https://github.com/joncahn/epigeneticbutton")
 
 st.header("Sample file", divider="red")
@@ -137,7 +137,7 @@ def check_table(tab):
 st.header("Click the button to check your sample file!", divider="red")
 
 left, middle, right = st.columns(3)
-with middle:
+with left:
     epibtn = st.button("EPIGENETIC 🔘", type="primary")
 
 if epibtn:

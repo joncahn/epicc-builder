@@ -164,27 +164,27 @@ st.subheader("Required parameters")
 config['repo_folder'] = st.text_input("full path to repo folder:", value="/path/to/epigeneticbutton/repo", help="full path to where the epigeneticbutton github is cloned")
 config['analysis_name'] = st.text_input("name of the run:", value="test_smk", help="label for analysis plots")
 config['sample_file'] = st.text_input("path to sample file:", value="config/all_samples.tsv", help="path to the sample file created above")
-for ref_genome in edited["reference_genome"]:
-    st.subheader(f"Reference Genome: {ref_genome}")
-    if ref_genome not in config:
-            config[ref_genome] = {}
-            config[ref_genome]['species'] = st.text_input("Species name:", value=config[ref_genome].get('species', "thaliana"), help="'thaliana' and 'mays' are already prepared. A new value will require additional input.", key=f"{ref_genome}_species")
-            config[ref_genome]['fasta_file'] = st.text_input("Fasta file:", value=config[ref_genome].get('fasta_file', "data/ColCEN_fasta.fa.gz"), help="full path to fasta file (or relative to the repo folder); needs to end in .fa(.gz) or .fasta(.gz) [can be gzipped].", key=f"{ref_genome}_fasta")
-            config[ref_genome]['gff_file'] = st.text_input("GFF file:", value=config[ref_genome].get('gff_file', "data/ColCEN_gff.gff.gz"), help="full path to gene annotation GFF file (or relative to the repo folder); needs to end in .gff*(.gz) [can be gzipped].", key=f"{ref_genome}_gff")
-            config[ref_genome]['gtf_file'] = st.text_input("GTF file:", value=config[ref_genome].get('gtf_file', "data/ColCEN_gtf.gtf.gz"), help="full path to gene annotation GTF file (or relative to the repo folder); needs to end in .gtf(.gz) [can be gzipped].", key=f"{ref_genome}_gtf")
-            config[ref_genome]['gaf_file'] = st.text_input("GAF file (for Gene Ontology analysis):", value=config[ref_genome].get('gaf_file', "data/ColCEN_infoGO.tab.gz"), help="full path to gene annotation GAF file (or relative to the repo folder), only required if Gene Ontology analysis is active (GO: true) [can be gzipped]. See Help_Gene_Ontology on the epigenetic button github.", key=f"{ref_genome}_gaf") 
-            config[ref_genome]['gene_info_file'] = st.text_input("Gene Info file (for Gene Ontology analysis):", value=config[ref_genome].get('gene_info_file', "data/ColCEN_genes_info.tab.gz"), help="full path to gene info file (or relative to the repo folder), only required if Gene Ontology analysis is active (GO: true) [can be gzipped]. See Help_Gene_Ontology on the epigenetic button github.", key=f"{ref_genome}_geneinfo")
-            config[ref_genome]['te_file'] = st.text_input("Bed file of transposable elements:", value=config[ref_genome].get('te_file', "data/ColCEN_TEs.bed.gz"), help="full path to transposable elements file (or relative to the repo folder); NOT USEFUL FOR NOW [can be gzipped].", key=f"{ref_genome}_te")
-            config[ref_genome]['structural_rna_fafile'] = st.text_input("Fasta file of structural RNAs (for their depletion from small RNA libraries):", value=config[ref_genome].get('structural_rna_fafile', "data/zm_structural_RNAs.fa.gz"), help="full path to fasta file of structural RNAs (or relative to the repo folder), only required if structural RNA depletion is active (structural_rna_depletion: true) [can be gzipped]. See Help_structural_RNAs_database_with_Rfam on the epigenetic button github.", key=f"{ref_genome}_strucrna")
+for ref_genome in unique(edited["reference_genome"]):
+        if ref_genome not in config:
+                config[ref_genome] = {}
+        with st.expander(f"Reference Genome: {ref_genome}", expanded=False):
+                config[ref_genome]['species'] = st.text_input("Species name:", value=config[ref_genome].get('species', "thaliana"), help="'thaliana' and 'mays' are already prepared. A new value will require additional input.", key=f"{ref_genome}_species")
+                config[ref_genome]['fasta_file'] = st.text_input("Fasta file:", value=config[ref_genome].get('fasta_file', "data/ColCEN_fasta.fa.gz"), help="full path to fasta file (or relative to the repo folder); needs to end in .fa(.gz) or .fasta(.gz) [can be gzipped].", key=f"{ref_genome}_fasta")
+                config[ref_genome]['gff_file'] = st.text_input("GFF file:", value=config[ref_genome].get('gff_file', "data/ColCEN_gff.gff.gz"), help="full path to gene annotation GFF file (or relative to the repo folder); needs to end in .gff*(.gz) [can be gzipped].", key=f"{ref_genome}_gff")
+                config[ref_genome]['gtf_file'] = st.text_input("GTF file:", value=config[ref_genome].get('gtf_file', "data/ColCEN_gtf.gtf.gz"), help="full path to gene annotation GTF file (or relative to the repo folder); needs to end in .gtf(.gz) [can be gzipped].", key=f"{ref_genome}_gtf")
+                config[ref_genome]['gaf_file'] = st.text_input("GAF file (for Gene Ontology analysis):", value=config[ref_genome].get('gaf_file', "data/ColCEN_infoGO.tab.gz"), help="full path to gene annotation GAF file (or relative to the repo folder), only required if Gene Ontology analysis is active (GO: true) [can be gzipped]. See Help_Gene_Ontology on the epigenetic button github.", key=f"{ref_genome}_gaf") 
+                config[ref_genome]['gene_info_file'] = st.text_input("Gene Info file (for Gene Ontology analysis):", value=config[ref_genome].get('gene_info_file', "data/ColCEN_genes_info.tab.gz"), help="full path to gene info file (or relative to the repo folder), only required if Gene Ontology analysis is active (GO: true) [can be gzipped]. See Help_Gene_Ontology on the epigenetic button github.", key=f"{ref_genome}_geneinfo")
+                config[ref_genome]['te_file'] = st.text_input("Bed file of transposable elements:", value=config[ref_genome].get('te_file', "data/ColCEN_TEs.bed.gz"), help="full path to transposable elements file (or relative to the repo folder); NOT USEFUL FOR NOW [can be gzipped].", key=f"{ref_genome}_te")
+                config[ref_genome]['structural_rna_fafile'] = st.text_input("Fasta file of structural RNAs (for their depletion from small RNA libraries):", value=config[ref_genome].get('structural_rna_fafile', "data/zm_structural_RNAs.fa.gz"), help="full path to fasta file of structural RNAs (or relative to the repo folder), only required if structural RNA depletion is active (structural_rna_depletion: true) [can be gzipped]. See Help_structural_RNAs_database_with_Rfam on the epigenetic button github.", key=f"{ref_genome}_strucrna")
 
-    species_name = config[ref_genome]['species']
-    if species_name not in config:
-        config[species_name] = {}
-        config[species_name]['star_index'] = st.number_input("number for STAR genomeSAindexNbases", min_value=12, max_value=16, value=12, key=f"{ref_genome}_starindex")
-        config[species_name]['genomesize'] = st.number_input("genome size:", value=1.3e8, format="%.2e", key=f"{ref_genome}_genomesize")
-        config[species_name]['ncbiID'] = st.text_input("NCBI species ID", value="3702", key=f"{ref_genome}_ncbiID")
-        config[species_name]['genus'] = st.text_input("genus", value="Arabidopsis", key=f"{ref_genome}_genus")
-        config[species_name]['go_database'] = st.text_input("GO database", value="org.Athaliana.eg.db", help="pattern should be org.<firstlettergenus><species>.eg.db", key=f"{ref_genome}_godb")
+                species_name = config[ref_genome]['species']
+                if species_name not in config:
+                        config[species_name] = {}
+                        config[species_name]['star_index'] = st.number_input("number for STAR genomeSAindexNbases", min_value=12, max_value=16, value=12, key=f"{ref_genome}_starindex")
+                        config[species_name]['genomesize'] = st.number_input("genome size:", value=1.3e8, format="%.2e", key=f"{ref_genome}_genomesize")
+                        config[species_name]['ncbiID'] = st.text_input("NCBI species ID", value="3702", key=f"{ref_genome}_ncbiID")
+                        config[species_name]['genus'] = st.text_input("genus", value="Arabidopsis", key=f"{ref_genome}_genus")
+                        config[species_name]['go_database'] = st.text_input("GO database", value="org.Athaliana.eg.db", help="pattern should be org.<firstlettergenus><species>.eg.db", key=f"{ref_genome}_godb")
 
 st.subheader("Output options")
 config['QC_option'] = st.selectbox("Choose fastQC options", ["none", "all"])

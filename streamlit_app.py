@@ -149,7 +149,7 @@ if epibtn:
 
 ##
 st.header("Config file", divider="red")
-url2 = "https://raw.githubusercontent.com/joncahn/epigeneticbutton/refs/heads/devel/config/config.yaml"
+url2 = "https://raw.githubusercontent.com/joncahn/epigeneticbutton/refs/heads/main/config/config.yaml"
 response = requests.get(url2)
 if response.status_code == 200:
         config = yaml.safe_load(response.text)

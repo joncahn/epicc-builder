@@ -32,7 +32,7 @@ st.text("Use this app to create your sample file and config file for the EPICC p
         "For more details, see README at:")
 
 left, middle, right = st.columns(3)
-with middle:
+with left:
         st.link_button("EPICC / epigeneticbutton", "https://github.com/joncahn/epigeneticbutton")
 
 st.header("Sample file", divider="red")
@@ -137,7 +137,7 @@ def check_table(tab):
 st.header("Click the button to check your sample file!", divider="red")
 
 left, middle, right = st.columns(3)
-with middle:
+with left:
     epibtn = st.button("EPIGENETIC 🔘", type="primary")
 
 if epibtn:
@@ -149,7 +149,7 @@ if epibtn:
 
 ##
 st.header("Config file", divider="red")
-url2 = "https://raw.githubusercontent.com/joncahn/epigeneticbutton/refs/heads/main/config/config.yaml"
+url2 = "https://raw.githubusercontent.com/joncahn/epigeneticbutton/refs/heads/devel/config/config.yaml"
 response = requests.get(url2)
 if response.status_code == 200:
         config = yaml.safe_load(response.text)
@@ -161,19 +161,28 @@ else:
                 st.link_button("back to EPICC github", "https://github.com/joncahn/epigeneticbutton")
 
 st.subheader("Required parameters")
-config['repo_folder'] = st.text_input("full path to folder:", value="/path/to/epigeneticbutton/repo", help="full path to where the epigeneticbutton github is cloned")
+config['repo_folder'] = st.text_input("full path to repo folder:", value="/path/to/epigeneticbutton/repo", help="full path to where the epigeneticbutton github is cloned")
 config['analysis_name'] = st.text_input("name of the run:", value="test_smk", help="label for analysis plots")
 config['sample_file'] = st.text_input("path to sample file:", value="config/all_samples.tsv", help="path to the sample file created above")
-config['ref_path'] = st.text_input("path to reference genome directory:", value="path/to/reference/genomes", help="path the the directory which contains all the subdirectories named like 'reference_genome' column above that contains the fasta and annotation files")
-config['species'] = st.text_input("Species name:", value="thaliana", help="'thaliana' and 'mays' are already prepared. A new value will require additional input")
+for ref_genome in edited["reference_genome"]:
+        if config[ref_genome] not in config:
+                config[config[ref_genome]] = {}
+                config[config[ref_genome]]['species'] = st.text_input("Species name:", value="thaliana", help="'thaliana' and 'mays' are already prepared. A new value will require additional input.")
+                config[config[ref_genome]]['fasta_file']: st.text_input("Fasta file:", value="data/ColCEN_fasta.fa.gz", help="full path to fasta file (or relative to the repo folder); needs to end in .fa(.gz) or .fasta(.gz) [can be gzipped].")
+                config[config[ref_genome]]['gff_file']: st.text_input("GFF file:", value="data/ColCEN_gff.gff.gz", help="full path to gene annotation GFF file (or relative to the repo folder); needs to end in .gff*(.gz) [can be gzipped].")
+                config[config[ref_genome]]['gtf_file']: st.text_input("GFF file:", value="data/ColCEN_gtf.gtf.gz", help="full path to gene annotation GTF file (or relative to the repo folder); needs to end in .gtf(.gz) [can be gzipped].")
+                config[config[ref_genome]]['gaf_file']: st.text_input("GAF file (for Gene Ontology analysis):", value="data/ColCEN_infoGO.tab.gz", help="full path to gene annotation GAF file (or relative to the repo folder), only required if Gene Ontology analysis is active (GO: true) [can be gzipped]. See Help_Gene_Ontology on the epigenetic button github.")
+                config[config[ref_genome]]['gene_info_file']: st.text_input("GAF file (for Gene Ontology analysis):", value="data/ColCEN_genes_info.tab.gz", help="full path to gene info file (or relative to the repo folder), only required if Gene Ontology analysis is active (GO: true) [can be gzipped]. See Help_Gene_Ontology on the epigenetic button github.")
+                config[config[ref_genome]]['te_file']: st.text_input("Bed file of Transposable Elements:", value="data/B73_v5_TEs.bed.gz", help="full path to transposable elements file (or relative to the repo folder); NOT USEFUL FOR NOW [can be gzipped].")
+                config[config[ref_genome]]['structural_rna_fafile']: st.text_input("Fasta file of structural RNAs (for their depletion from small RNA libraries):", value="data/zm_structural_RNAs.fa.gz", help="full path to fasta file of structural RNAs (or relative to the repo folder), only required if structural RNA depletion is active (structural_rna_depletion: true) [can be gzipped]. See Help_structural_RNAs_database_with_Rfam on the epigenetic button github.")
 
-if config['species'] not in config:
-        config[config['species']] = {}
-        config[config['species']]['star_index'] = st.number_input("number for STAR genomeSAindexNbases", min_value=12, max_value=16, value=12)
-        config[config['species']]['genomesize'] = st.number_input("genome size:", value=1.3e8, format="%.2e")
-        config[config['species']]['ncbiID'] = st.text_input("NCBI species ID", value="3702") 
-        config[config['species']]['genus'] = st.text_input("genus", value="Arabidopsis")
-        config[config['species']]['go_database'] = st.text_input("GO database", value="org.Athaliana.eg.db", help="pattern should be org.<firstlettergenus><species>.eg.db")
+        if config[config[ref_genome]]['species'] not in config:
+                config[config[config[ref_genome]]['species']] = {}
+                config[config[config[ref_genome]]['species']]['star_index'] = st.number_input("number for STAR genomeSAindexNbases", min_value=12, max_value=16, value=12)
+                config[config[config[ref_genome]]['species']]['genomesize'] = st.number_input("genome size:", value=1.3e8, format="%.2e")
+                config[config[config[ref_genome]]['species']]['ncbiID'] = st.text_input("NCBI species ID", value="3702") 
+                config[config[config[ref_genome]]['species']]['genus'] = st.text_input("genus", value="Arabidopsis")
+                config[config[config[ref_genome]]['species']]['go_database'] = st.text_input("GO database", value="org.Athaliana.eg.db", help="pattern should be org.<firstlettergenus><species>.eg.db")
 
 st.subheader("Output options")
 config['QC_option'] = st.selectbox("Choose fastQC options", ["none", "all"])
@@ -282,30 +291,26 @@ if "sampledownloaded" not in st.session_state:
 if "configdownloaded" not in st.session_state:
     st.session_state.configdownloaded = False
 
-left, right = st.columns(2)
-with left:
-        filename = Path(config["sample_file"]).name
-        sampledownload = st.download_button("Samples 🔘",
-                           data=tab,
-                           file_name=filename,
-                           mime="text/tab-separated-values",
-                           type="primary")
-        if sampledownload and not st.session_state.sampledownloaded:
-                countbtn2 += 1
-                sheet.update_acell('B2', str(countbtn2))
-                st.session_state.sampledownloaded = True
-                st.write(f"Sample files downloaded: {countbtn2} 🎉")
+filename = Path(config["sample_file"]).name
+sampledownload = st.download_button("Samples 🔘",
+                                    data=tab,
+                                    file_name=filename,
+                                    mime="text/tab-separated-values",
+                                    type="primary")
+if sampledownload and not st.session_state.sampledownloaded:
+        countbtn2 += 1
+        sheet.update_acell('B2', str(countbtn2))
+        st.session_state.sampledownloaded = True
+        st.write(f"Sample files downloaded: {countbtn2} 🎉")
 
-with right:
-        configdownload = st.download_button("Config 🔘",
-                           data=buffer,
-                           file_name="config.yaml",
-                           mime="application/x-yaml",
-                           type="primary")
-        if configdownload and not st.session_state.configdownloaded:
-                countbtn3 += 1
-                sheet.update_acell('C2', str(countbtn3))
-                st.session_state.configdownloaded = True
-                st.write(f"Config files downloaded: {countbtn3} 🎉")
+configdownload = st.download_button("Config 🔘",
+                                    data=buffer,
+                                    file_name="config.yaml",
+                                    mime="application/x-yaml",
+                                    type="primary")
+if configdownload and not st.session_state.configdownloaded:
+        countbtn3 += 1
+        sheet.update_acell('C2', str(countbtn3))
+        st.session_state.configdownloaded = True
+        st.write(f"Config files downloaded: {countbtn3} 🎉")
 
-        

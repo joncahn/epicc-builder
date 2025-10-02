@@ -291,30 +291,26 @@ if "sampledownloaded" not in st.session_state:
 if "configdownloaded" not in st.session_state:
     st.session_state.configdownloaded = False
 
-left, right = st.columns(2)
-with left:
-        filename = Path(config["sample_file"]).name
-        sampledownload = st.download_button("Samples 🔘",
-                           data=tab,
-                           file_name=filename,
-                           mime="text/tab-separated-values",
-                           type="primary")
-        if sampledownload and not st.session_state.sampledownloaded:
-                countbtn2 += 1
-                sheet.update_acell('B2', str(countbtn2))
-                st.session_state.sampledownloaded = True
-                st.write(f"Sample files downloaded: {countbtn2} 🎉")
+filename = Path(config["sample_file"]).name
+sampledownload = st.download_button("Samples 🔘",
+                                    data=tab,
+                                    file_name=filename,
+                                    mime="text/tab-separated-values",
+                                    type="primary")
+if sampledownload and not st.session_state.sampledownloaded:
+        countbtn2 += 1
+        sheet.update_acell('B2', str(countbtn2))
+        st.session_state.sampledownloaded = True
+        st.write(f"Sample files downloaded: {countbtn2} 🎉")
 
-with right:
-        configdownload = st.download_button("Config 🔘",
-                           data=buffer,
-                           file_name="config.yaml",
-                           mime="application/x-yaml",
-                           type="primary")
-        if configdownload and not st.session_state.configdownloaded:
-                countbtn3 += 1
-                sheet.update_acell('C2', str(countbtn3))
-                st.session_state.configdownloaded = True
-                st.write(f"Config files downloaded: {countbtn3} 🎉")
+configdownload = st.download_button("Config 🔘",
+                                    data=buffer,
+                                    file_name="config.yaml",
+                                    mime="application/x-yaml",
+                                    type="primary")
+if configdownload and not st.session_state.configdownloaded:
+        countbtn3 += 1
+        sheet.update_acell('C2', str(countbtn3))
+        st.session_state.configdownloaded = True
+        st.write(f"Config files downloaded: {countbtn3} 🎉")
 
-        

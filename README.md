@@ -10,7 +10,7 @@ Once your table is complete, click the epigenetic button to validate that your s
 If it is correct, you can download it at the bottom of the page!
 
 ## Config file
-Fill in all the fields in the required parameters section. Output options and additional parameters can also be edited. These values will populate the config.yaml file used by snakemake, so make sure none are empty and they follow the same pattern that the default values.\
+Fill in all the fields in the required parameters section. Output options and additional parameters can also be edited. These values will populate the config.yaml file used by snakemake, so make sure none are empty and they follow the same pattern than the default values.\
 Once you have finished your selection, you can your custom config file at the bottom of the page!
 
 Note1: The config file will lose the comments and formatting from the original config file, and the original config file has more paramteres that can be changed. For more control, edit it directly in unix (with vi for example).\

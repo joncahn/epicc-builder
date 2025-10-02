@@ -190,7 +190,9 @@ for species_name in species_set:
         with st.expander(f"Species info: {species_name}", expanded=exp):
                 star_index_number = st.number_input("number for STAR genomeSAindexNbases", min_value=12, max_value=16, value=12, key=f"{species_name}_starindex")
                 config[species_name]['star_index'] = f"--genomeSAindexNbases {star_index_number}"
-                config[species_name]['genomesize'] = st.number_input("genome size:", value=config[species_name].get('genomesize', 1.3e8), format="%.2e", key=f"{species_name}_genomesize")
+                initial_value = float(config[species_name].get('genomesize', 1.3e8))
+                genome_size_value = st.number_input("genome size:", value=initial_value, format="%.2e", key=f"{species_name}_genomesize")
+                config[species_name]['genomesize'] = f"{genome_size_value:.2e}"
                 with st.expander(f"Optional input", expanded=False):
                         config[species_name]['ncbiID'] = st.text_input("NCBI species ID (for Gene Ontology analysis)", value=config[species_name].get('ncbiID', "3702"), help="Only required if Gene Ontology is active (GO: true)", key=f"{species_name}_ncbiID")
                         config[species_name]['genus'] = st.text_input("genus (for Gene Ontology analysis)", value=config[species_name].get('genus', "Arabidopsis"), help="Only required if Gene Ontology is active (GO: true)", key=f"{species_name}_genus")

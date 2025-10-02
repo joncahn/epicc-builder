@@ -164,7 +164,7 @@ st.subheader("Required parameters")
 config['repo_folder'] = st.text_input("full path to repo folder:", value="/path/to/epigeneticbutton/repo", help="full path to where the epigeneticbutton github is cloned")
 config['analysis_name'] = st.text_input("name of the run:", value="test_smk", help="label for analysis plots")
 config['sample_file'] = st.text_input("path to sample file:", value="config/all_samples.tsv", help="path to the sample file created above")
-for ref_genome in unique(edited["reference_genome"]):
+for ref_genome in edited["reference_genome"].unique():
         if ref_genome not in config:
                 config[ref_genome] = {}
         with st.expander(f"Reference Genome: {ref_genome}", expanded=False):

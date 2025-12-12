@@ -1,5 +1,5 @@
 # EPICC-builder
-App to help you generate the sample file and config file for the epigeneticbutton pipeline.
+App to help you generate the sample file and config file for the epigeneticbutton pipeline.\
 Link to github: [EPICC / epigeneticbutton](https://github.com/joncahn/epigeneticbutton)
 
 [open EPICC-builder in streamlit](https://epicc-builder.streamlit.app/)

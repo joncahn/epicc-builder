@@ -258,6 +258,7 @@ with st.expander("⚙️ Advanced Options", expanded=False):
                 config['mC_method'] = st.selectbox("mC library prep method", ["default","WGBS", "Pico", "EMseq"], help="Library preparation method for mC samples. Default is whole-genome bisulphite sequencing.")
                 map_pe = st.number_input("Max insert length", min_value=100, max_value=int(50000), value=1000, help="Value used for --maxins parameter of bismark to limit the maximum distance between reads R1 and R2 in PE data.")
                 config['mC_mapping'][config['mC_method']] = f"--maxins {map_pe}"
+                config['custom_script_dmrs'] = st.toggle("Use call_DMRs_custom.R script", value=False, help="Use the custom script for calling DMRs. This analysis is more time and resource-consuming.")
                 
         with st.expander("sRNA samples", expanded=False):
                 config['trimming_quality']['sRNA'] = st.text_input("parameters for trimming", key="srna_trimming", value="-q 10 -m 15")

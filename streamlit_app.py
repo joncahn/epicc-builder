@@ -178,7 +178,7 @@ for ref_genome in edited["reference_genome"].unique():
                 with st.expander(f"Optional files", expanded=False):
                         config[ref_genome]['gaf_file'] = st.text_input("GAF file (for Gene Ontology analysis):", value=config[ref_genome].get('gaf_file', "data/ColCEN_infoGO.tab.gz"), help="full path to gene annotation GAF file (or relative to the repo folder), only required if Gene Ontology analysis is active (GO: true) [can be gzipped]. See Help_Gene_Ontology on the epigenetic button github.", key=f"{ref_genome}_gaf") 
                         config[ref_genome]['gene_info_file'] = st.text_input("Gene Info file (for Gene Ontology analysis):", value=config[ref_genome].get('gene_info_file', "data/ColCEN_genes_info.tab.gz"), help="full path to gene info file (or relative to the repo folder), only required if Gene Ontology analysis is active (GO: true) [can be gzipped]. See Help_Gene_Ontology on the epigenetic button github.", key=f"{ref_genome}_geneinfo")
-                        config[ref_genome]['te_file'] = st.text_input("Bed file of transposable elements:", value=config[ref_genome].get('te_file', "data/ColCEN_TEs.bed.gz"), help="full path to transposable elements file (or relative to the repo folder); NOT USEFUL FOR NOW [can be gzipped].", key=f"{ref_genome}_te")
+                        config[ref_genome]['te_file'] = st.text_input("Bed file of transposable elements:", value=config[ref_genome].get('te_file', "data/ColCEN_TEs.bed.gz"), help="full path to transposable elements file (or relative to the repo folder) [can be gzipped].", key=f"{ref_genome}_te")
                         config[ref_genome]['structural_rna_fafile'] = st.text_input("Fasta file of structural RNAs (for their depletion from small RNA libraries):", value=config[ref_genome].get('structural_rna_fafile', "data/zm_structural_RNAs.fa.gz"), help="full path to fasta file of structural RNAs (or relative to the repo folder), only required if structural RNA depletion is active (structural_rna_depletion: true) [can be gzipped]. See Help_structural_RNAs_database_with_Rfam on the epigenetic button github.", key=f"{ref_genome}_strucrna")
 
 species_set = { config[ref]['species'] for ref in edited["reference_genome"] if ref in config }
@@ -199,13 +199,19 @@ for species_name in species_set:
                         config[species_name]['go_database'] = st.text_input("GO database (for Gene Ontology analysis)", value=config[species_name].get('go_database', "org.Athaliana.eg.db"), help="Only required if Gene Ontology is active (GO: true). Pattern should be org.<firstlettergenus><species>.eg.db", key=f"{species_name}_godb")
 
 st.subheader("Output options")
-config['QC_option'] = st.selectbox("Choose fastQC options", ["none", "all"])
 config['full_analysis'] = st.toggle("Complete analysis", value=True)
 if config['full_analysis']:
         st.write("Complete analysis activated! Smash that button! 💪")
 else:
         st.write("Complete analysis deactivated. Only mapping will be performed. 😞")
-
+config['te_analysis'] = st.toggle("TE analysis", value=False)
+if config['te_analysis']:
+        st.write("Analysis on TE is ON! You know where it's at! 👏")
+else:
+        st.write("TE analysis deactivated. It's only junk DNA afterall... 👀")
+config['QC_option'] = st.selectbox("Choose fastQC options", ["none", "all"])
+if config['QC_option'] == "all":
+        st.write("How good is that raw data, hum? 🧐")
 config['GO'] = st.toggle("Gene Ontology analysis", value=False, help="Option to perform gene ontology analysis. Requires other input, see Help GO for more details.")
 if config['GO']:
         st.write("Gene Ontology will be performed! Good luck! 🤞")
@@ -214,6 +220,18 @@ if config['GO']:
         config['gene_info_file'][ref_genome] = st.text_input("Gene info file", value="data/ColCEN_genes_info.tab.gz", help="File with details on Gene IDs. See Help GO for more details.")
 else:
         st.write("Gene ontology deactivated. Probably safer! 😥")
+
+config['trimmed_fastqs'] = st.toggle("Trimmed Fastq files already available?", value=False)
+if config['trimmed_fastqs']:
+        st.write("I do my own trimming, thank you! ✂️")
+else:
+        st.write("A little bit more off the top, please! 💇‍♀️💇‍♂️")
+config['aligned_bams'] = st.toggle("Alignment files (BAM) already available?", value=False)
+if config['aligned_bams']:
+        st.write("Been there, done that! ✔")
+else:
+        st.write("One alignment coming right up! 🛎️")
+        
 config['motifs'] = st.toggle("Motifs analysis for TFs", value=True, help="Option to perform motifs analysis for transcription factors.")
 if config['motifs']:
         st.write("Motifs analysis selected! 😀")
@@ -281,16 +299,21 @@ with st.expander("⚙️ Advanced Options", expanded=False):
                                 srna_heatmap_size.append(i)
                 config['srna_heatmap_sizes'] = srna_heatmap_size
         with st.expander("Plotting options", expanded=False):
+                config['plot_allreps'] = st.toggle("Use all replicates in plots", value=False, help="Choose whether to include all replicates individually on plots or a single track per sample (merging all replicates together)")
+                if config['plot_allreps']:
+                        st.write("I want EVERYTHING! 🤤)
                 config['heatmap_scales'] = st.selectbox("Scales for heatmaps", options=["type","sample","default"], help="'default' = default scaling from deeptools, same scale for all samples; 'sample' = each individual sample has its own scale; 'type' = each type of data is on a different scale (each ChIP mark + each TF + RNA + sRNA + each mC context)")
-                config['stranded_heatmaps'] = st.toggle("Stranded heatmaps", value=True, help="Chose whether the heatmap should be done with stranded information or not. If true, lines in the bedfile without strand information (6th column '+' or '-') will not be included.")
+                config['stranded_heatmaps'] = st.toggle("Stranded heatmaps", value=True, help="Choose whether the heatmap should be done with stranded information or not. If true, lines in the bedfile without strand information (6th column '+' or '-') will not be included.")
                 if config['stranded_heatmaps']:
                         st.write("If possible, heatmaps will be split by strand and then merged! Awesome! 🔀")
                 else:
                         st.write("No strandedness in my heatmaps, thank you ➡️")
                 config['heatmaps_sort_options'] = st.selectbox("Sort option for heatmaps", options=["mean","median","no"], help="mean = '--sortRegions descend --sortUsing mean'; 'median' = '--sortRegions descend --sortUsing median'; no = '--sortRegions keep'")
-                config['heatmap_sort_mc_after_others'] = st.toggle("Sort mC heatmap based on other samples", value=True, help="Chose whether the heatmaps for mC samples keep the same sort order than the other samples or not.")
+                config['heatmap_sort_mc_after_others'] = st.toggle("Sort mC heatmap based on other samples", value=True, help="Choose whether the heatmaps for mC samples keep the same sort order than the other samples or not.")
                 config['profiles_scale'] = st.selectbox("Values for metaplots", options=["mean","median"])
                 config['profiles_plot_params'] = st.text_input("Parameters for deeptools plotProfile", value="--plotType 'lines'")
+                
+                config['browser_TE_file'] = st.text_input("Parameters for deeptools plotProfile", value="--plotType 'lines'")
                 
 st.write("More options are available to those who can directly change the yamls... 🤓")
 ##

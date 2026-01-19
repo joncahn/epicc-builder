@@ -29,10 +29,15 @@ except:
 
 st.title(":red[EPICC-builder]")
 st.text("Use this app to create your sample file and config file for the EPICC pipeline:\n"
-        "For more details, see README at:")
+        "For more details, see the documentation at:")
 
 left, middle, right = st.columns(3)
 with left:
+        st.link_button("EPICC DOCUMENTATION", "https://epicc-documentation.readthedocs.io/en/latest/index.html")
+
+st.text("To go to the epigeneticbutton github at:")
+
+left, middle, right = st.columns(3)
         st.link_button("EPICC / epigeneticbutton", "https://github.com/joncahn/epigeneticbutton")
 
 st.header("Sample file", divider="red")

@@ -213,7 +213,7 @@ else:
 config['te_analysis'] = st.toggle("Analysis on transposable elements", value=False)
 if config['te_analysis']:
         st.write("*TE analysis is ON! You know where it's at!* 👏")
-        st.write("*Make sure you have entered the correct `te_file` file for your reference genome above!*")
+        st.write("*Make sure you have entered the correct `te_file` optional file for your reference genome above!*")
 else:
         st.write("*TE analysis is deactivated. It's only junk DNA afterall...* 👀")
 config['QC_option'] = st.selectbox("Choose fastQC options", ["none", "all"])
@@ -222,7 +222,7 @@ if config['QC_option'] == "all":
 config['GO'] = st.toggle("Gene Ontology analysis", value=False, help="Option to perform gene ontology analysis. Requires other input, see Help GO on read the docs or github for more details.")
 if config['GO']:
         st.write("*Gene Ontology will be performed! Good luck!* 🤞")
-        st.write("*Make sure you have entered the correct `gaf` and `gene_info` files for your reference genome above!*")
+        st.write("*Make sure you have entered the correct `gaf` and `gene_info` optional files for your reference genome above!*")
 else:
         st.write("*Gene ontology deactivated. Probably safer!* 😥")
 
@@ -292,6 +292,7 @@ with st.expander("⚙️ Advanced Options", expanded=False):
                 config['structural_rna_depletion'] = st.toggle("Depletion of structural RNAs", value=False, help="Option to filter structural RNA (rRNAs, tRNAs, snoRNAs) before mapping. Recommended step when studying microRNAs and small interfering RNAs. Requires optional input files for each reference genome (see above); see Help Rfam on read the docs or github for more info.")
                 if config['structural_rna_depletion']:
                         st.write("*Depletion of structural RNA will be performed! Good riddance!* 🧹")
+                        st.write("*Make sure you have entered the correct `structural_rna_fafile` optional file for your reference genome above!*")
                 else:
                         st.write("*No structural RNA depletion. rRNAs, here we come!* 🪡")
                 config['srna_mapping_params'] = st.text_input("Mapping parameters for sRNA  with ShortStack", value="--mmap u --dicermin 21 --dicermax 24 --dn_mirna --no_bigwigs", help="consider replacing --dn_mirna with --known_miRNAs KNOWN_MIRNAS.fa (but requires fetching miRNAs sequences, from miRBase for example)")
@@ -319,6 +320,9 @@ with st.expander("⚙️ Advanced Options", expanded=False):
                 config['profiles_plot_params'] = st.text_input("Parameters for deeptools plotProfile", value="--plotType 'lines'")
                 
                 config['browser_TE_file'] = st.toggle("Include TE track in the browser", value=True, help="Choose whether to include a track of TEs in the browser plots. It requires a TE file for the given reference genome.")
+                if config['browser_TE_file']:
+                        st.write("*Wait, it's all repeats?!* 🔫")
+                        st.write("*Make sure you have entered the correct `te_file` optional file for your reference genome above!*")
                 
 st.write("**More options are available to those who can directly change the yamls...** 🤓")
 ##

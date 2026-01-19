@@ -313,7 +313,7 @@ with st.expander("⚙️ Advanced Options", expanded=False):
                 config['profiles_scale'] = st.selectbox("Values for metaplots", options=["mean","median"])
                 config['profiles_plot_params'] = st.text_input("Parameters for deeptools plotProfile", value="--plotType 'lines'")
                 
-                config['browser_TE_file'] = st.toggle("Include TE track in the browser", value=True, help="Choose whether to include a track of TEs in the browser plots. It requires a TE file for the given reference genome.)
+                config['browser_TE_file'] = st.toggle("Include TE track in the browser", value=True, help="Choose whether to include a track of TEs in the browser plots. It requires a TE file for the given reference genome.")
                 
 st.write("More options are available to those who can directly change the yamls... 🤓")
 ##

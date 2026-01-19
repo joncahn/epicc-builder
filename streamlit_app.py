@@ -207,14 +207,14 @@ for species_name in species_set:
 st.subheader("Output options")
 config['full_analysis'] = st.toggle("Complete analysis", value=True)
 if config['full_analysis']:
-        st.write("Complete analysis activated! Smash that button! 💪")
+        st.write("*Complete analysis activated! Smash that button!* 💪")
 else:
-        st.write("Complete analysis deactivated. Only mapping will be performed. 😞")
+        st.write("*Complete analysis deactivated. Only mapping will be performed.* 😞")
 config['te_analysis'] = st.toggle("TE analysis", value=False)
 if config['te_analysis']:
-        st.write("Analysis on TE is ON! You know where it's at! 👏")
+        st.write("*Analysis on transposable elements is ON! You know where it's at!* 👏")
 else:
-        st.write("TE analysis deactivated. It's only junk DNA afterall... 👀")
+        st.write("*TE analysis deactivated. It's only junk DNA afterall...* 👀")
 config['QC_option'] = st.selectbox("Choose fastQC options", ["none", "all"])
 if config['QC_option'] == "all":
         st.write("How good is that raw data, hum? 🧐")

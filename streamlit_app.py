@@ -215,7 +215,7 @@ if config['QC_option'] == "all":
 config['GO'] = st.toggle("Gene Ontology analysis", value=False, help="Option to perform gene ontology analysis. Requires other input, see Help GO for more details.")
 if config['GO']:
         st.write("Gene Ontology will be performed! Good luck! 🤞")
-        ref_genome = st.text_input("Reference genome to perform GO", value="ColCEN", help="Other prepared option: B73_v5. Add the same name that the reference_genome column of your samplefils. See Help GO for more details.")
+        ref_genome = st.text_input("Reference genome to perform GO", value="ColCEN", help="Other prepared option: B73_v5. Add the same name that the reference_genome column of your samplefile. See Help GO for more details.")
         config['gaf_file'][ref_genome] = st.text_input("GAF file", value="data/ColCEN_infoGO.tab.gz", help="File of association of Gene IDs with GO terms. See Help GO for more details.")
         config['gene_info_file'][ref_genome] = st.text_input("Gene info file", value="data/ColCEN_genes_info.tab.gz", help="File with details on Gene IDs. See Help GO for more details.")
 else:
@@ -313,7 +313,7 @@ with st.expander("⚙️ Advanced Options", expanded=False):
                 config['profiles_scale'] = st.selectbox("Values for metaplots", options=["mean","median"])
                 config['profiles_plot_params'] = st.text_input("Parameters for deeptools plotProfile", value="--plotType 'lines'")
                 
-                config['browser_TE_file'] = st.text_input("Parameters for deeptools plotProfile", value="--plotType 'lines'")
+                config['browser_TE_file'] = st.toggle("Include TE track in the browser", value=True, help="Choose whether to include a track of TEs in the browser plots. It requires a TE file for the given reference genome.)
                 
 st.write("More options are available to those who can directly change the yamls... 🤓")
 ##

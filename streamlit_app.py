@@ -301,7 +301,7 @@ with st.expander("⚙️ Advanced Options", expanded=False):
         with st.expander("Plotting options", expanded=False):
                 config['plot_allreps'] = st.toggle("Use all replicates in plots", value=False, help="Choose whether to include all replicates individually on plots or a single track per sample (merging all replicates together)")
                 if config['plot_allreps']:
-                        st.write("I want EVERYTHING! 🤤)
+                        st.write("I want EVERYTHING! 🤤")
                 config['heatmap_scales'] = st.selectbox("Scales for heatmaps", options=["type","sample","default"], help="'default' = default scaling from deeptools, same scale for all samples; 'sample' = each individual sample has its own scale; 'type' = each type of data is on a different scale (each ChIP mark + each TF + RNA + sRNA + each mC context)")
                 config['stranded_heatmaps'] = st.toggle("Stranded heatmaps", value=True, help="Choose whether the heatmap should be done with stranded information or not. If true, lines in the bedfile without strand information (6th column '+' or '-') will not be included.")
                 if config['stranded_heatmaps']:

@@ -182,10 +182,10 @@ for ref_genome in edited["reference_genome"].unique():
                 config[ref_genome]['gff_file'] = st.text_input("GFF file:", value=config[ref_genome].get('gff_file', "data/ColCEN_gff.gff.gz"), help="full path to gene annotation GFF file (or relative to the repo folder); needs to end in .gff*(.gz) [can be gzipped].", key=f"{ref_genome}_gff")
                 config[ref_genome]['gtf_file'] = st.text_input("GTF file:", value=config[ref_genome].get('gtf_file', "data/ColCEN_gtf.gtf.gz"), help="full path to gene annotation GTF file (or relative to the repo folder); needs to end in .gtf(.gz) [can be gzipped].", key=f"{ref_genome}_gtf")
                 with st.expander(f"Optional files", expanded=False):
-                        config[ref_genome]['gaf_file'] = st.text_input("GAF file (for Gene Ontology analysis):", value=config[ref_genome].get('gaf_file', "data/ColCEN_infoGO.tab.gz"), help="full path to gene annotation GAF file (or relative to the repo folder), only required if Gene Ontology analysis is active (GO: true) [can be gzipped]. See Help_Gene_Ontology on the epigenetic button github.", key=f"{ref_genome}_gaf") 
-                        config[ref_genome]['gene_info_file'] = st.text_input("Gene Info file (for Gene Ontology analysis):", value=config[ref_genome].get('gene_info_file', "data/ColCEN_genes_info.tab.gz"), help="full path to gene info file (or relative to the repo folder), only required if Gene Ontology analysis is active (GO: true) [can be gzipped]. See Help_Gene_Ontology on the epigenetic button github.", key=f"{ref_genome}_geneinfo")
+                        config[ref_genome]['gaf_file'] = st.text_input("GAF file (for Gene Ontology analysis):", value=config[ref_genome].get('gaf_file', "data/ColCEN_infoGO.tab.gz"), help="full path to gene annotation GAF file (or relative to the repo folder), only required if Gene Ontology analysis is active (GO: true) [can be gzipped]. See Help_Gene_Ontology on read the docs or github for more details.", key=f"{ref_genome}_gaf") 
+                        config[ref_genome]['gene_info_file'] = st.text_input("Gene Info file (for Gene Ontology analysis):", value=config[ref_genome].get('gene_info_file', "data/ColCEN_genes_info.tab.gz"), help="full path to gene info file (or relative to the repo folder), only required if Gene Ontology analysis is active (GO: true) [can be gzipped]. See Help_Gene_Ontology on read the docs or github for more details.", key=f"{ref_genome}_geneinfo")
                         config[ref_genome]['te_file'] = st.text_input("Bed file of transposable elements:", value=config[ref_genome].get('te_file', "data/ColCEN_TEs.bed.gz"), help="full path to transposable elements file (or relative to the repo folder) [can be gzipped].", key=f"{ref_genome}_te")
-                        config[ref_genome]['structural_rna_fafile'] = st.text_input("Fasta file of structural RNAs (for their depletion from small RNA libraries):", value=config[ref_genome].get('structural_rna_fafile', "data/zm_structural_RNAs.fa.gz"), help="full path to fasta file of structural RNAs (or relative to the repo folder), only required if structural RNA depletion is active (structural_rna_depletion: true) [can be gzipped]. See Help_structural_RNAs_database_with_Rfam on the epigenetic button github.", key=f"{ref_genome}_strucrna")
+                        config[ref_genome]['structural_rna_fafile'] = st.text_input("Fasta file of structural RNAs (for their depletion from small RNA libraries):", value=config[ref_genome].get('structural_rna_fafile', "data/zm_structural_RNAs.fa.gz"), help="full path to fasta file of structural RNAs (or relative to the repo folder), only required if structural RNA depletion is active (structural_rna_depletion: true) [can be gzipped]. See Help_structural_RNAs_database_with_Rfam on read the docs or github for more details.", key=f"{ref_genome}_strucrna")
 
 species_set = { config[ref]['species'] for ref in edited["reference_genome"] if ref in config }
 for species_name in species_set:
@@ -213,17 +213,16 @@ else:
 config['te_analysis'] = st.toggle("Analysis on transposable elements", value=False)
 if config['te_analysis']:
         st.write("*TE analysis is ON! You know where it's at!* 👏")
+        st.write("*Make sure you have entered the correct `te_file` file for your reference genome above!*")
 else:
         st.write("*TE analysis is deactivated. It's only junk DNA afterall...* 👀")
 config['QC_option'] = st.selectbox("Choose fastQC options", ["none", "all"])
 if config['QC_option'] == "all":
         st.write("*How good is that raw data, hum?* 🧐")
-config['GO'] = st.toggle("Gene Ontology analysis", value=False, help="Option to perform gene ontology analysis. Requires other input, see Help GO for more details.")
+config['GO'] = st.toggle("Gene Ontology analysis", value=False, help="Option to perform gene ontology analysis. Requires other input, see Help GO on read the docs or github for more details.")
 if config['GO']:
         st.write("*Gene Ontology will be performed! Good luck!* 🤞")
-        ref_genome = st.text_input("Reference genome to perform GO", value="ColCEN", help="Other prepared option: B73_v5. Add the same name that the reference_genome column of your samplefile. See Help GO for more details.")
-        config['gaf_file'][ref_genome] = st.text_input("GAF file", value="data/ColCEN_infoGO.tab.gz", help="File of association of Gene IDs with GO terms. See Help GO for more details.")
-        config['gene_info_file'][ref_genome] = st.text_input("Gene info file", value="data/ColCEN_genes_info.tab.gz", help="File with details on Gene IDs. See Help GO for more details.")
+        st.write("*Make sure you have entered the correct `gaf` and `gene_info` files for your reference genome above!*")
 else:
         st.write("*Gene ontology deactivated. Probably safer!* 😥")
 
@@ -290,7 +289,7 @@ with st.expander("⚙️ Advanced Options", expanded=False):
                 config['netflex_v3_deduplication'] = st.toggle("Deduplication for libraries made with Netflex V3", value=False, help="Option to further deduplicate reads required for (and only for) libraries made with Netflex v3 kits.")
                 if config['netflex_v3_deduplication']:
                         st.write("*Going old school, eh!* 👵👴")
-                config['structural_rna_depletion'] = st.toggle("Depletion of structural RNAs", value=False, help="Option to filter structural RNA (rRNAs, tRNAs, snoRNAs) before mapping. Recommended step when studying microRNAs and small interfering RNAs. Requires optional input files for each reference genome (see above); see Help Rfam on github for more info.")
+                config['structural_rna_depletion'] = st.toggle("Depletion of structural RNAs", value=False, help="Option to filter structural RNA (rRNAs, tRNAs, snoRNAs) before mapping. Recommended step when studying microRNAs and small interfering RNAs. Requires optional input files for each reference genome (see above); see Help Rfam on read the docs or github for more info.")
                 if config['structural_rna_depletion']:
                         st.write("*Depletion of structural RNA will be performed! Good riddance!* 🧹")
                 else:

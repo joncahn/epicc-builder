@@ -38,6 +38,7 @@ with left:
 st.text("To go to the epigeneticbutton github at:")
 
 left, middle, right = st.columns(3)
+with left:
         st.link_button("EPICC / epigeneticbutton", "https://github.com/joncahn/epigeneticbutton")
 
 st.header("Sample file", divider="red")

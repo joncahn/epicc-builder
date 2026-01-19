@@ -210,43 +210,43 @@ if config['full_analysis']:
         st.write("*Complete analysis activated! Smash that button!* 💪")
 else:
         st.write("*Complete analysis deactivated. Only mapping will be performed.* 😞")
-config['te_analysis'] = st.toggle("TE analysis", value=False)
+config['te_analysis'] = st.toggle("Analysis on transposable elements", value=False)
 if config['te_analysis']:
-        st.write("*Analysis on transposable elements is ON! You know where it's at!* 👏")
+        st.write("*TE analysis is ON! You know where it's at!* 👏")
 else:
-        st.write("*TE analysis deactivated. It's only junk DNA afterall...* 👀")
+        st.write("*TE analysis is deactivated. It's only junk DNA afterall...* 👀")
 config['QC_option'] = st.selectbox("Choose fastQC options", ["none", "all"])
 if config['QC_option'] == "all":
-        st.write("How good is that raw data, hum? 🧐")
+        st.write("*How good is that raw data, hum?* 🧐")
 config['GO'] = st.toggle("Gene Ontology analysis", value=False, help="Option to perform gene ontology analysis. Requires other input, see Help GO for more details.")
 if config['GO']:
-        st.write("Gene Ontology will be performed! Good luck! 🤞")
+        st.write("*Gene Ontology will be performed! Good luck!* 🤞")
         ref_genome = st.text_input("Reference genome to perform GO", value="ColCEN", help="Other prepared option: B73_v5. Add the same name that the reference_genome column of your samplefile. See Help GO for more details.")
         config['gaf_file'][ref_genome] = st.text_input("GAF file", value="data/ColCEN_infoGO.tab.gz", help="File of association of Gene IDs with GO terms. See Help GO for more details.")
         config['gene_info_file'][ref_genome] = st.text_input("Gene info file", value="data/ColCEN_genes_info.tab.gz", help="File with details on Gene IDs. See Help GO for more details.")
 else:
-        st.write("Gene ontology deactivated. Probably safer! 😥")
+        st.write("*Gene ontology deactivated. Probably safer!* 😥")
 
 config['trimmed_fastqs'] = st.toggle("Trimmed Fastq files already available?", value=False)
 if config['trimmed_fastqs']:
-        st.write("I do my own trimming, thank you! ✂️")
+        st.write("*I do my own trimming, thank you!* ✂️")
 else:
-        st.write("A little bit more off the top, please! 💇‍♀️💇‍♂️")
+        st.write("*A little bit more off the top, please!* 💇‍♀️💇‍♂️")
 config['aligned_bams'] = st.toggle("Alignment files (BAM) already available?", value=False)
 if config['aligned_bams']:
-        st.write("Been there, done that! ✔")
+        st.write("*Been there, done that!* ✔")
 else:
-        st.write("One alignment coming right up! 🛎️")
+        st.write("*Alignment coming right up!* 🛎️")
         
 config['motifs'] = st.toggle("Motifs analysis for TFs", value=True, help="Option to perform motifs analysis for transcription factors.")
 if config['motifs']:
-        st.write("Motifs analysis selected! 😀")
+        st.write("*Motifs analysis selected!* 😀")
         config['jaspar_db'] = st.text_input("Database of existing motifs", value="data/JASPAR2024_CORE_plants_non-redundant_pfms_meme.txt", help="Database of existing motifs (can be found on Jaspar website) for tomtom analysis.") 
         config['allreps'] = st.toggle("Motifs on all replicates", value=False, help="Option to perform motifs on all replicates, not only on the merged files")
         if config['allreps']:
-                st.write("Let's go! Motifs on all individual replicates it is! 💸")
+                st.write("*Let's go! Motifs on all individual replicates it is!* 💸")
 else:
-        st.write("No motifs analysis will be performed! 😢")
+        st.write("*No motifs analysis will be performed!* 😢")
 
 with st.expander("⚙️ Advanced Options", expanded=False):
         with st.expander("ChIP-seq samples", expanded=False):
@@ -289,12 +289,12 @@ with st.expander("⚙️ Advanced Options", expanded=False):
                 config['adapter1']['sRNA'] = st.text_input("adapter sequence", key="srna_adapter1", value="TGGAATTCTCGGGTGCCAAGG")
                 config['netflex_v3_deduplication'] = st.toggle("Deduplication for libraries made with Netflex V3", value=False, help="Option to further deduplicate reads required for (and only for) libraries made with Netflex v3 kits.")
                 if config['netflex_v3_deduplication']:
-                        st.write("Going old school, eh! 👵👴")
+                        st.write("*Going old school, eh!* 👵👴")
                 config['structural_rna_depletion'] = st.toggle("Depletion of structural RNAs", value=False, help="Option to filter structural RNA (rRNAs, tRNAs, snoRNAs) before mapping. Recommended step when studying microRNAs and small interfering RNAs. Requires optional input files for each reference genome (see above); see Help Rfam on github for more info.")
                 if config['structural_rna_depletion']:
-                        st.write("Depletion of structural RNA will be performed! Good riddance! 🧹")
+                        st.write("*Depletion of structural RNA will be performed! Good riddance!* 🧹")
                 else:
-                        st.write("No structural RNA depletion. rRNAs, here we come! 🪡")
+                        st.write("*No structural RNA depletion. rRNAs, here we come!* 🪡")
                 config['srna_mapping_params'] = st.text_input("Mapping parameters for sRNA  with ShortStack", value="--mmap u --dicermin 21 --dicermax 24 --dn_mirna --no_bigwigs", help="consider replacing --dn_mirna with --known_miRNAs KNOWN_MIRNAS.fa (but requires fetching miRNAs sequences, from miRBase for example)")
                 config['srna_min_size'], config['srna_max_size'] = st.slider("Range of small RNA sizes to keep and create individual bigwig files", min_value=15, max_value=100, value=(21,24), help="A bigiwig file will be created for each integer value in this range, so don't go too crazy!")
                 srna_heatmap_size = []
@@ -307,13 +307,13 @@ with st.expander("⚙️ Advanced Options", expanded=False):
         with st.expander("Plotting options", expanded=False):
                 config['plot_allreps'] = st.toggle("Use all replicates in plots", value=False, help="Choose whether to include all replicates individually on plots or a single track per sample (merging all replicates together)")
                 if config['plot_allreps']:
-                        st.write("I want EVERYTHING! 🤤")
+                        st.write("*I want EVERYTHING!* 🤤")
                 config['heatmap_scales'] = st.selectbox("Scales for heatmaps", options=["type","sample","default"], help="'default' = default scaling from deeptools, same scale for all samples; 'sample' = each individual sample has its own scale; 'type' = each type of data is on a different scale (each ChIP mark + each TF + RNA + sRNA + each mC context)")
                 config['stranded_heatmaps'] = st.toggle("Stranded heatmaps", value=True, help="Choose whether the heatmap should be done with stranded information or not. If true, lines in the bedfile without strand information (6th column '+' or '-') will not be included.")
                 if config['stranded_heatmaps']:
-                        st.write("If possible, heatmaps will be split by strand and then merged! Awesome! 🔀")
+                        st.write("*If possible, heatmaps will be split by strand and then merged! Awesome!* 🔀")
                 else:
-                        st.write("No strandedness in my heatmaps, thank you ➡️")
+                        st.write("*No strandedness in my heatmaps, thank you.* ➡️")
                 config['heatmaps_sort_options'] = st.selectbox("Sort option for heatmaps", options=["mean","median","no"], help="mean = '--sortRegions descend --sortUsing mean'; 'median' = '--sortRegions descend --sortUsing median'; no = '--sortRegions keep'")
                 config['heatmap_sort_mc_after_others'] = st.toggle("Sort mC heatmap based on other samples", value=True, help="Choose whether the heatmaps for mC samples keep the same sort order than the other samples or not.")
                 config['profiles_scale'] = st.selectbox("Values for metaplots", options=["mean","median"])
@@ -321,7 +321,7 @@ with st.expander("⚙️ Advanced Options", expanded=False):
                 
                 config['browser_TE_file'] = st.toggle("Include TE track in the browser", value=True, help="Choose whether to include a track of TEs in the browser plots. It requires a TE file for the given reference genome.")
                 
-st.write("More options are available to those who can directly change the yamls... 🤓")
+st.write("**More options are available to those who can directly change the yamls...** 🤓")
 ##
 st.header("Click the buttons to create your files!", divider="red")
 st.write("Make sure you check that your sample file is valid and that all config entries are set!")
@@ -346,7 +346,7 @@ if sampledownload and not st.session_state.sampledownloaded:
         countbtn2 += 1
         sheet.update_acell('B2', str(countbtn2))
         st.session_state.sampledownloaded = True
-        st.write(f"Sample files downloaded: {countbtn2} 🎉")
+        st.write(f"*Sample files downloaded:* {countbtn2} 🎉")
 
 configdownload = st.download_button("Config 🔘",
                                     data=buffer,
@@ -357,5 +357,5 @@ if configdownload and not st.session_state.configdownloaded:
         countbtn3 += 1
         sheet.update_acell('C2', str(countbtn3))
         st.session_state.configdownloaded = True
-        st.write(f"Config files downloaded: {countbtn3} 🎉")
+        st.write(f"*Config files downloaded:* {countbtn3} 🎉")
 

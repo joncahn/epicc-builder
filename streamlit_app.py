@@ -286,8 +286,8 @@ with st.expander("⚙️ Advanced Options", expanded=False):
         with st.expander("sRNA samples", expanded=False):
                 config['trimming_quality']['sRNA'] = st.text_input("parameters for trimming", key="srna_trimming", value="-q 10 -m 15")
                 config['adapter1']['sRNA'] = st.text_input("adapter sequence", key="srna_adapter1", value="TGGAATTCTCGGGTGCCAAGG")
-                config['netflex_v3_deduplication'] = st.toggle("Deduplication for libraries made with Netflex V3", value=False, help="Option to further deduplicate reads required for (and only for) libraries made with Netflex v3 kits.")
-                if config['netflex_v3_deduplication']:
+                config['nextflex_v3_deduplication'] = st.toggle("Deduplication for libraries made with Nextflex V3", value=False, help="Option to further deduplicate reads required for (and only for) libraries made with Nextflex v3 kits.")
+                if config['nextflex_v3_deduplication']:
                         st.write("*Going old school, eh!* 👵👴")
                 config['structural_rna_depletion'] = st.toggle("Depletion of structural RNAs", value=False, help="Option to filter structural RNA (rRNAs, tRNAs, snoRNAs) before mapping. Recommended step when studying microRNAs and small interfering RNAs. Requires optional input files for each reference genome (see above); see Help Rfam on read the docs or github for more info.")
                 if config['structural_rna_depletion']:

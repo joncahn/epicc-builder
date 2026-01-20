@@ -295,7 +295,7 @@ with st.expander("⚙️ Advanced Options", expanded=False):
                         st.write("*Make sure you have entered the correct `structural_rna_fafile` optional file for your reference genome above!*")
                 else:
                         st.write("*No structural RNA depletion. rRNAs, here we come!* 🪡")
-                config['srna_mapping_params'] = st.text_input("Mapping parameters for sRNA  with ShortStack", value="--mmap u --dicermin 21 --dicermax 24 --dn_mirna --no_bigwigs", help="consider replacing --dn_mirna with --known_miRNAs KNOWN_MIRNAS.fa (but requires fetching miRNAs sequences, from miRBase for example)")
+                config['srna_mapping_params'] = st.text_input("Mapping parameters for sRNA  with ShortStack", value="--mmap u --dicermin 21 --dicermax 24 --dn_mirna", help="consider replacing --dn_mirna with --known_miRNAs KNOWN_MIRNAS.fa (but requires fetching miRNAs sequences, from miRBase for example)")
                 config['srna_min_size'], config['srna_max_size'] = st.slider("Range of small RNA sizes to keep and create individual bigwig files", min_value=15, max_value=100, value=(21,24), help="A bigiwig file will be created for each integer value in this range, so don't go too crazy!")
                 srna_heatmap_size = []
                 st.write("Select the sizes to use for plotting in heatmaps and profiles:")

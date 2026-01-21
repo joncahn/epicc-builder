@@ -11,9 +11,13 @@ import json
 
 st.set_page_config(
    page_title="EPICC-builder",
-   page_icon="🔥",
-   layout="wide",
-   initial_sidebar_state="expanded",
+   page_icon="🔘",
+   layout="centered",
+   initial_sidebar_state="auto",
+   menu_items={
+        'Get Help': 'https://epicc-documentation.readthedocs.io/en/latest/index.html',
+        'Report a bug': "https://github.com/joncahn/epigeneticbutton/issues"
+    }
 )
 
 creds_dict = st.secrets["gcp_service_account"]

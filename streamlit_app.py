@@ -9,6 +9,13 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import json
 
+st.set_page_config(
+   page_title="EPICC-builder",
+   page_icon="🧊",
+   layout="wide",
+   initial_sidebar_state="expanded",
+)
+
 creds_dict = st.secrets["gcp_service_account"]
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
 creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)

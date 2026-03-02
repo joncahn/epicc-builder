@@ -1,5 +1,6 @@
+streamlit>=1.32
+altair>=5
 pandas
-streamlit
 PyYAML
 GitPython
 gspread

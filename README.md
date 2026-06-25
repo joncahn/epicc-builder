@@ -1,4 +1,9 @@
 # EPICC-builder
+
+This App is now moot and discontinued. 
+Epicc-builder comes as an html wrapped within EPICC.
+
+##
 App to help you generate the sample file and config file for the epigeneticbutton pipeline.\
 Link to github: [EPICC / epigeneticbutton](https://github.com/joncahn/epigeneticbutton)
 
